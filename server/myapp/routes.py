@@ -20,6 +20,8 @@ def get_types():
     types = mongo.db.xml_type.find()
     return json.loads(json_util.dumps(list(types)))
 
+
+# Insert xml data to mongo
 @main.route('/api/xml', methods=['POST', 'GET'])
 def create_xml():
     xml_obj = XMLreader(path)
@@ -28,6 +30,8 @@ def create_xml():
         match xml['loai_hoso']:
             case 'XML1':
                 xml1_content = xml_obj.xml1(xml['noi_dung'])
+                ma_lk = xml1_content['MA_LK']
+                mongo.db.xml1.find_one_and_delete({"MA_LK": ma_lk})
                 _id = mongo.db.xml1.insert_one(xml1_content).inserted_id
                 break
             

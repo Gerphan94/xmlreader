@@ -74,6 +74,8 @@ function XML1Page() {
     return (
         <>
             <div className="p-8 w-screen">
+                <div className="text-left font-bold mb-3 px-4">XML1</div>
+
                 <div class="relative overflow-x-auto shadow-md sm:rounded-lg w-full">
                     <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -86,11 +88,13 @@ function XML1Page() {
                         {/* Add the rest of your table body here */}
                         <tbody>
                             {xml1.map((item, rowIndex) => (
-                                <tr key={rowIndex} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                <tr 
+                                    key={rowIndex} 
+                                    className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-blue-100 dark:hover:bg-gray-600 cursor-auto">
                                     {HEAD_TB.map((header, colIndex) => (
                                         <td
                                         key={colIndex}
-                                        className={`px-6 py-3 whitespace-nowrap ${
+                                        className={`px-6 py-3 whitespace-nowrap  ${
                                           header.align === 'center' ? 'text-center' :
                                           header.align === 'right' ? 'text-right' :
                                           '' 

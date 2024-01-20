@@ -1,0 +1,6 @@
+beautifulsoup4
+lxml
+flask
+gunicorn==20.1.0
+flask_pymongo
+flask_cors

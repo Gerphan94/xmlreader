@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
 
-function XML1Page( { setMaLK }  ) {
+function XML1Page( { data, setMaLK }  ) {
 
     const HEAD_TB = [
-        
         { name: 'STT', align: 'center' },
         { name: 'MA_BN', align: 'center' },
         { name: 'HO_TEN', align: 'left' },
@@ -46,29 +45,15 @@ function XML1Page( { setMaLK }  ) {
         { name: 'CAN_NANG', align: 'right' }
     ]
     
-    const [xml1, setXml1] = useState([])
-
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await fetch('http://127.0.0.1:5000/api/get_xml1s');
-                const data = await response.json();
-                console.log(data);
-                setXml1(data);
-            } catch (error) {
-                console.error('Error fetching data:', error);
-            }
-        };
-        fetchData();
-    }, []);
-
-    const handleClick = (ma_lk) => {
+    const [selectedRow, setSelectedRow] = useState(-1);
+    const handleClick = (index, ma_lk) => {
         setMaLK(ma_lk);
+        setSelectedRow(index);
     }
 
     return (
         <>
-            <div className="mt-5">
+            <div className="mt-1">
             <div className="text-left font-bold py-2">XML1</div>
                 <div class="relative overflow-x-auto shadow-md sm:rounded-lg w-full h-[300px]">
                     <table class="w-full  text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
@@ -81,12 +66,11 @@ function XML1Page( { setMaLK }  ) {
                         </thead>
                         {/* Add the rest of your table body here */}
                         <tbody>
-                            {xml1.map((item, rowIndex) => (
+                            {data.map((item, rowIndex) => (
                                 <tr 
                                     key={rowIndex}
-                                    onClick={() => handleClick( item['MA_LK'] )} 
-                                    className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-blue-100 dark:hover:bg-gray-600 cursor-auto">
-                                    
+                                    onClick={() => handleClick(rowIndex,  item['MA_LK'] )} 
+                                    className={` border-b  dark:border-gray-700 hover:bg-blue-100 cursor-default ${ selectedRow === rowIndex ? 'bg-blue-100': 'bg-white' }`}>
                                     {HEAD_TB.map((header, colIndex) => (
                                         <td
                                         key={colIndex}

@@ -42,7 +42,7 @@ def create_xml():
                 return jsonify({'error': 'Invalid file or file type not allowed'})
             
             # Return a response (optional)
-        return jsonify({'message': 'File uploaded and processed successfully'})
+        return jsonify({'message': 'File uploaded and processed successfully'}), 201
 
         # return jsonify({'error': 'Invalid file or file type not allowed'})
 

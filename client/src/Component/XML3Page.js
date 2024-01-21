@@ -33,8 +33,6 @@ function XML3Page({ data }) {
         { name: 'NGAY_YL', align: 'left' },
         { name: 'NGAY_KQ', align: 'left' },
         { name: 'MA_PTTT', align: 'left' }
-
-
     ]
 
 

@@ -11,7 +11,6 @@ class XMLreader():
 
         xml_content = BeautifulSoup(data, "lxml")
         file_hoso_list = xml_content.find_all('filehoso')
-        print(file_hoso_list)
         obj = []
         for hoso in file_hoso_list:
             loaihs = hoso.find('loaihoso')
@@ -46,8 +45,9 @@ class XMLreader():
             for tag in tags:
                 obj[tag.name] = tag.text
             ar.append(obj)
-        print(list(ar))
         return ar
+    
+    
         
     
 if __name__=="__main__":
@@ -55,27 +55,14 @@ if __name__=="__main__":
    
     xml_obj = XMLreader(xml_path)
     xmls = xml_obj.read_xml()
+    
     for xml in xmls:
-        print(xml['loai_hoso'])
-        match xml['loai_hoso']:
+        xml_name = xml['loai_hoso']
+        match (xml_name):
             case 'XML1':
-                xml1_content = xml_obj.xml1(xml['noi_dung'])
-                print(xml1_content)
-                break
+                xml1 = xml_obj.xml1(xml['noi_dung'])
+                print(xml1)
             case 'XML2':
-                print("Check case 2")
-                xml2_content = xml_obj.xml2(xml['noi_dung'])
-                print(xml2_content)
-                break
-            case 'XML3':
-                
-                break
-            case 'XML4':
-                
-                break
-            case 'XML5':
-                
-                break
-            
-            case _:
-                break
+                xml2 = xml_obj.xml2(xml['noi_dung'])
+                print(xml2)
+        

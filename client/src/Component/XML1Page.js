@@ -1,19 +1,10 @@
 import React, { useState, useEffect } from "react";
 
 
-function XML1Page() {
-
-    const HEAD_TB2 = [
-        "MA_LK", "STT", "MA_BN", "HO_TEN", "NGAY_SINH", "GIOI_TINH", "DIA_CHI", "MA_THE",
-        "MA_DKBD", "GT_THE_TU", "GT.THE_DEN", "MIEN_CUNG_CT", "TEN_BENH", "MA_BENH",
-        "MA_BENHKHAC", "MA_LYDO_VVIEN", "MA_NOI_CHUYEN", "MA_TAI_NAN", "NGAY_VAO", "NGAY_RA",
-        "SO_NGAY_DTRI", "KET_QUA_DTRI", "TINH_TRANG_RV", "NGAY_TTOAN", "T_THUOC", "T_VTYT",
-        "T_TONGCHI", "T_BNTT", "T_BNCCT", "T_BHTT", "T_NGUONKHAC", "T_NGOAIDS", "NAM_QT",
-        "THANG_QT", "MA_LOAI_KCB", "MA_KHOA", "MA_CSKCB", "MA_KHUVUC", "MA_PTTT_QT", "CAN_NANG"
-    ]
+function XML1Page( { setMaLK }  ) {
 
     const HEAD_TB = [
-        { name: 'MA_LK', align: 'left' },
+        
         { name: 'STT', align: 'center' },
         { name: 'MA_BN', align: 'center' },
         { name: 'HO_TEN', align: 'left' },
@@ -71,17 +62,20 @@ function XML1Page() {
         fetchData();
     }, []);
 
+    const handleClick = (ma_lk) => {
+        setMaLK(ma_lk);
+    }
+
     return (
         <>
-            <div className="p-8 w-screen">
-                <div className="text-left font-bold mb-3 px-4">XML1</div>
-
-                <div class="relative overflow-x-auto shadow-md sm:rounded-lg w-full">
-                    <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <div className="mt-5">
+            <div className="text-left font-bold py-2">XML1</div>
+                <div class="relative overflow-x-auto shadow-md sm:rounded-lg w-full h-[300px]">
+                    <table class="w-full  text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                        <thead class="text-md text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                             <tr>
                                 {HEAD_TB.map((header, index) => (
-                                    <th key={index} cscope="col" class="px-6 py-3">{header.name}</th>
+                                    <th key={index} cscope="col" class="px-6 py-1">{header.name}</th>
                                 ))}
                             </tr>
                         </thead>
@@ -89,12 +83,14 @@ function XML1Page() {
                         <tbody>
                             {xml1.map((item, rowIndex) => (
                                 <tr 
-                                    key={rowIndex} 
+                                    key={rowIndex}
+                                    onClick={() => handleClick( item['MA_LK'] )} 
                                     className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-blue-100 dark:hover:bg-gray-600 cursor-auto">
+                                    
                                     {HEAD_TB.map((header, colIndex) => (
                                         <td
                                         key={colIndex}
-                                        className={`px-6 py-3 whitespace-nowrap  ${
+                                        className={`px-6 py-1 whitespace-nowrap  ${
                                           header.align === 'center' ? 'text-center' :
                                           header.align === 'right' ? 'text-right' :
                                           '' 

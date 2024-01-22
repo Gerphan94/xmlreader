@@ -38,11 +38,10 @@ function XML3Page({ data }) {
 
     return (
         <>
-            <div className="mt-2">
-            <div className="text-center font-bold py-2 bg-blue-200 w-24 rounded-t-md">XML3</div>
-                <div className="relative overflow-x-auto shadow-md  w-full min-h-[150px]">
+            <div className="">
+                <div className="relative overflow-x-auto shadow-md  w-full h-72">
                     <table className="w-full text-sm text-gray-500 ">
-                        <thead className="text-xs text-gray-700 uppercase bg-blue-200">
+                        <thead className="sticky top-0 text-xs text-gray-700 uppercase bg-blue-200">
                             <tr>
                                 {HEAD_TB.map((header, index) => (
                                     <th key={index} cscope="col" className="px-6 py-3">{header.name}</th>

@@ -88,14 +88,14 @@ function MainPage() {
 
     }, [MaLK]);
 
-   
+
 
 
 
 
     return (
         <div>
-            <div className="fixed top-0 h-16 w-full bg-blue-300">
+            <div className="fixed top-0 h-16 w-full">
                 <div className="flex justify-between w-full h-full">
                     <div className="font-bold text-2xl ml-10 text-shadow-2xl cursor-pointer flex items-center">X M L</div>
                     <form>
@@ -125,24 +125,35 @@ function MainPage() {
                 <div className="h-1/3">
                     <XML1Page data={xml1} setMaLK={setMaLK} />
                 </div>
-                <div className="h-2/3 overflow-y-auto mt-10 pb-20">
-                    <div className="flex">
+                <div className="h-2/3 mt-10 pb-20">
+                    <div className="flex h-10">
                         {xml_childs.map((child) => (
                             <button
-                                className={`rounded-t-md px-4 py-2 text-gray-700 ${selectedXML === child ? 'bg-blue-200 font-bold' : 'bg-white hover:bg-blue-100'}`} 
+                                className={`rounded-t-md px-4 py-2 text-gray-700 ${selectedXML === child ? 'bg-blue-200 font-bold' : 'bg-white hover:bg-blue-100'}`}
                                 onClick={() => setSelectedXML(child)}
-                                >
-                                
+                            >
+
                                 {child.toUpperCase()}
                             </button>
                         ))}
-
+                    </div>
+                    <div className="">
+                        {(selectedXML === 'xml2') &&
+                            <XML2Page data={xmlDetail['xml2']} />
+                        }
+                        {(selectedXML === 'xml3') &&
+                            <XML3Page data={xmlDetail['xml3']} />
+                        }
+                        {(selectedXML === 'xml4') &&
+                            <XML4Page data={xmlDetail['xml4']} />
+                        }
+                        {(selectedXML === 'xml5') &&
+                            <XML5Page data={xmlDetail['xml5']} />
+                        }
 
                     </div>
-                    <XML2Page data={xmlDetail['xml2']} />
-                <XML3Page data={xmlDetail['xml3']} />
-                <XML4Page data={xmlDetail['xml4']} />
-                <XML5Page data={xmlDetail['xml5']} /> 
+
+
                 </div>
 
             </div>

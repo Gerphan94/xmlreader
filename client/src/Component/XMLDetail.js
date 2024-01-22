@@ -1,10 +1,13 @@
 import React from "react";
 
 
-function XML2Page({ data }) {
+function XMLDetail({ xml_table, xml_data }) {
 
-    const HEAD_TB = [
-       
+    let HEAD_TB;
+    let data;
+
+
+    const XML2_HEAD_TB = [
         { name: 'STT', align: 'left' },
         { name: 'MA_THUOC', align: 'left' },
         { name: 'MA_NHOM', align: 'left' },
@@ -31,15 +34,89 @@ function XML2Page({ data }) {
         { name: 'MA_BENH', align: 'left' },
         { name: 'NGAY_YL', align: 'left' },
         { name: 'MA_PTTT', align: 'left' }
+    ];
+    const XML3_HEAD_TB = [
+        { name: 'STT', align: 'left' },
+        { name: 'MA_DICH_VU', align: 'left' },
+        { name: 'MA_VAT_TU', align: 'left' },
+        { name: 'MA_NHOM', align: 'left' },
+        { name: 'GOI_VTYT', align: 'left' },
+        { name: 'TEN_VAT_TU', align: 'left' },
+        { name: 'TEN_DICH_VU', align: 'left' },
+        { name: 'DON_VI_TINH', align: 'left' },
+        { name: 'PHAM_VI', align: 'left' },
+        { name: 'SO_LUONG', align: 'left' },
+        { name: 'DON_GIA', align: 'left' },
+        { name: 'TT_THAU', align: 'left' },
+        { name: 'TYLE_TT', align: 'left' },
+        { name: 'THANH_TIEN', align: 'left' },
+        { name: 'T_TRANTT', align: 'left' },
+        { name: 'MUC_HUONG', align: 'left' },
+        { name: 'T_NGUONKHAC', align: 'left' },
+        { name: 'T_BNTT', align: 'left' },
+        { name: 'T_BHTT', align: 'left' },
+        { name: 'T_BNCCT', align: 'left' },
+        { name: 'T_NGOAlDS', align: 'left' },
+        { name: 'MA_KHOA', align: 'left' },
+        { name: 'MA_GIUONG', align: 'left' },
+        { name: 'MA_BAC_SI', align: 'left' },
+        { name: 'MA_BENH', align: 'left' },
+        { name: 'NGAY_YL', align: 'left' },
+        { name: 'NGAY_KQ', align: 'left' },
+        { name: 'MA_PTTT', align: 'left' }
+    ]
+
+    const XML4_HEAD_TB = [
+        { name: 'STT', align: 'center' },
+        { name: 'MA_DICH_VU', align: 'left' },
+        { name: 'MA_CHI_SO', align: 'left' },
+        { name: 'TEN_CHI_SO', align: 'left' },
+        { name: 'GIA_TRI', align: 'left' },
+        { name: 'MA_MAY', align: 'left' },
+        { name: 'MO_TA', align: 'left' },
+        { name: 'KET_LUAN', align: 'left' },
+        { name: 'NGAY_KQ', align: 'left' }
 
     ]
+
+    const XML5_HEAD_TB = [
+        { name: 'STT', align: 'left' },
+        { name: 'DIEN_BIEN', align: 'left' },
+        { name: 'HOI_CHAN', align: 'left' },
+        { name: 'PHAU_THUAT', align: 'left' },
+        { name: 'NGAY_YL', align: 'left' }
+
+    ]
+
+    switch (xml_table) {
+        case 'xml2':
+            HEAD_TB = XML2_HEAD_TB;
+            data = xml_data['xml2'];
+            break
+        case 'xml3':
+            HEAD_TB = XML3_HEAD_TB;
+            data = xml_data['xml3'];
+            break
+        case 'xml4':
+            HEAD_TB = XML4_HEAD_TB;
+            data = xml_data['xml4'];
+            break
+        case 'xml5':
+            HEAD_TB = XML5_HEAD_TB;
+            data = xml_data['xml5'];
+            break
+        default:
+            break
+
+    }
+
 
 
     return (
         <>
-            <div className="mt-2">
-                <div className="text-center font-bold py-2 bg-blue-200 w-24 rounded-t-md">XML2</div>
-                <div class="relative overflow-x-auto shadow-md  w-full min-h-[150px]">
+            <div className="">
+                
+                <div class="relative overflow-x-auto shadow-md  w-full h-full">
                     <table class="w-full text-sm text-gray-500 ">
                         <thead class="text-xs text-gray-700 uppercase bg-blue-200">
                             <tr>
@@ -78,4 +155,4 @@ function XML2Page({ data }) {
 
 }
 
-export default XML2Page;
+export default XMLDetail;

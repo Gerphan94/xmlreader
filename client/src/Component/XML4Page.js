@@ -1,36 +1,19 @@
 import React from "react";
 
 
-function XML2Page({ data }) {
+function XML4Page({ data }) {
 
     const HEAD_TB = [
-       
-        { name: 'STT', align: 'left' },
-        { name: 'MA_THUOC', align: 'left' },
-        { name: 'MA_NHOM', align: 'left' },
-        { name: 'TEN_THUOC', align: 'left' },
-        { name: 'DON_VI_TINH', align: 'left' },
-        { name: 'HAM_LUONG', align: 'left' },
-        { name: 'DUONG_DUNG', align: 'left' },
-        { name: 'LIEU_DUNG', align: 'left' },
-        { name: 'SO_DANG_KY', align: 'left' },
-        { name: 'TT_THAU', align: 'left' },
-        { name: 'PHAM_Vl', align: 'left' },
-        { name: 'TYLE_TT', align: 'left' },
-        { name: 'SO_LUONG', align: 'left' },
-        { name: 'DON_GIA', align: 'left' },
-        { name: 'THANH_TIEN', align: 'left' },
-        { name: 'MUC_HUONG', align: 'left' },
-        { name: 'T_NGUON KHAC', align: 'left' },
-        { name: 'T_BNTT', align: 'left' },
-        { name: 'T_BHTT', align: 'left' },
-        { name: 'T_BNCCT', align: 'left' },
-        { name: 'T_NGOAIDS', align: 'left' },
-        { name: 'MA_KHOA', align: 'left' },
-        { name: 'MA_BAC_SI', align: 'left' },
-        { name: 'MA_BENH', align: 'left' },
-        { name: 'NGAY_YL', align: 'left' },
-        { name: 'MA_PTTT', align: 'left' }
+        { name: 'STT', align: 'center' },
+        { name: 'MA_DICH_VU', align: 'left' },
+        { name: 'MA_CHI_SO', align: 'left' },
+        { name: 'TEN_CHI_SO', align: 'left' },
+        { name: 'GIA_TRI', align: 'left' },
+        { name: 'MA_MAY', align: 'left' },
+        { name: 'MO_TA', align: 'left' },
+        { name: 'KET_LUAN', align: 'left' },
+        { name: 'NGAY_KQ', align: 'left' }
+
 
     ]
 
@@ -38,13 +21,13 @@ function XML2Page({ data }) {
     return (
         <>
             <div className="mt-2">
-                <div className="text-center font-bold py-2 bg-blue-200 w-24 rounded-t-md">XML2</div>
+                <div className="text-center font-bold py-2 bg-blue-200 w-24 rounded-t-md">XML4</div>
                 <div class="relative overflow-x-auto shadow-md  w-full min-h-[150px]">
                     <table class="w-full text-sm text-gray-500 ">
                         <thead class="text-xs text-gray-700 uppercase bg-blue-200">
                             <tr>
                                 {HEAD_TB.map((header, index) => (
-                                    <th key={index} cscope="col" class="px-6 py-1">{header.name}</th>
+                                    <th key={index} cscope="col" class="px-6 py-3">{header.name}</th>
                                 ))}
                             </tr>
                         </thead>
@@ -78,4 +61,4 @@ function XML2Page({ data }) {
 
 }
 
-export default XML2Page;
+export default XML4Page;

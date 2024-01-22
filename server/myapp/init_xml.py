@@ -74,6 +74,38 @@ class XMLObject():
                 ar.append(obj)
         return ar
     
+    def xml4(self):
+        ar = []
+        if ( self.xml4_content != '' ):
+            data_decode = base64.b64decode(self.xml4_content)
+            xml_content = BeautifulSoup(data_decode, "xml")
+            dscls = xml_content.find('DSACH_CHI_TIET_CLS')
+            
+            chi_tiets = dscls.find_all('CHI_TIET_CLS')
+            for chi_tiet in chi_tiets:
+                obj = {}
+                tags = chi_tiet.find_all()
+                for tag in tags:
+                    obj[tag.name] = tag.text
+                ar.append(obj)
+        return ar
+
+    def xml5(self):
+        ar = []
+        if ( self.xml5_content != '' ):
+            data_decode = base64.b64decode(self.xml5_content)
+            xml_content = BeautifulSoup(data_decode, "xml")
+            dsdienbienbenh = xml_content.find('DSACH_CHI_TIET_DIEN_BIEN_BENH')
+            
+            chi_tiets = dsdienbienbenh.find_all('CHI_TIET_DIEN_BIEN_BENH')
+            for chi_tiet in chi_tiets:
+                obj = {}
+                tags = chi_tiet.find_all()
+                for tag in tags:
+                    obj[tag.name] = tag.text
+                ar.append(obj)
+        return ar
+    
     
 # if __name__=="__main__":
 #     xml_path = '../123.xml'

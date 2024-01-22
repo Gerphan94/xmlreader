@@ -53,11 +53,10 @@ function XML1Page( { data, setMaLK }  ) {
 
     return (
         <>
-            <div className="mt-1">
-            <div className="text-left font-bold py-2">XML1</div>
-                <div class="relative overflow-x-auto shadow-md sm:rounded-lg w-full h-[300px]">
-                    <table class="w-full  text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                        <thead class="text-md text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            
+                <div class="relative overflow-x-auto shadow-md sm:rounded-lg w-full h-full">
+                    <table class=" w-full  text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                        <thead class="sticky top-0 text-md text-gray-700 uppercase bg-blue-200">
                             <tr>
                                 {HEAD_TB.map((header, index) => (
                                     <th key={index} cscope="col" class="px-6 py-1">{header.name}</th>
@@ -89,7 +88,7 @@ function XML1Page( { data, setMaLK }  ) {
                         </tbody>
                     </table>
                 </div>
-            </div>
+           
 
         </>
     )

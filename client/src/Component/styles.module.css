@@ -1,0 +1,6 @@
+.MainPage {
+    height: calc(100vh - 64px);
+    margin-top: 64px;
+    overflow-y: hidden;
+    padding: 20px;
+}

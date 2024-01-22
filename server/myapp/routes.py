@@ -38,6 +38,10 @@ def create_xml():
                     mongo.db.xml2.insert_many(xml_obj.xml2())
                 if xml_obj.xml3():
                     mongo.db.xml3.insert_many(xml_obj.xml3())
+                if xml_obj.xml4():
+                    mongo.db.xml4.insert_many(xml_obj.xml4())
+                if xml_obj.xml5():
+                    mongo.db.xml5.insert_many(xml_obj.xml5())
             else:
                 return jsonify({'error': 'Invalid file or file type not allowed'})
             

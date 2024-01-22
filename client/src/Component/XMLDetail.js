@@ -1,10 +1,9 @@
 import React from "react";
 
 
-function XMLDetail({ xml_table, xml_data }) {
+function XMLDetail({ xml_table, data }) {
 
     let HEAD_TB;
-    let data;
 
 
     const XML2_HEAD_TB = [
@@ -91,19 +90,19 @@ function XMLDetail({ xml_table, xml_data }) {
     switch (xml_table) {
         case 'xml2':
             HEAD_TB = XML2_HEAD_TB;
-            data = xml_data['xml2'];
+            
             break
         case 'xml3':
             HEAD_TB = XML3_HEAD_TB;
-            data = xml_data['xml3'];
+           
             break
         case 'xml4':
             HEAD_TB = XML4_HEAD_TB;
-            data = xml_data['xml4'];
+          
             break
         case 'xml5':
             HEAD_TB = XML5_HEAD_TB;
-            data = xml_data['xml5'];
+            
             break
         default:
             break

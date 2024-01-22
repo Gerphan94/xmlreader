@@ -1,9 +1,6 @@
 import React, { useRef, useState, useEffect } from "react";
 import XML1Page from "./XML1Page";
-import XML2Page from "./XML2Page";
-import XML3Page from "./XML3Page";
-import XML4Page from "./XML4Page";
-import XML5Page from "./XML5Page";
+
 import XMLDetail from "./XMLDetail";
 
 import styles from "./styles.module.css";
@@ -89,6 +86,14 @@ function MainPage() {
 
     }, [MaLK]);
 
+    const handleClickBTN = (child) => {
+        setSelectedXML(child);
+        setXmlData(xmlDetail[child]);
+    }
+
+
+
+
     return (
         <div>
             <div className="fixed top-0 h-16 w-full bg-blue-300">
@@ -126,7 +131,7 @@ function MainPage() {
                         {xml_childs.map((child) => (
                             <button
                                 className={`rounded-t-md px-4 py-2 text-gray-700 ${selectedXML === child ? 'bg-blue-200 font-bold' : 'bg-white hover:bg-blue-100'}`} 
-                                onClick={() => setSelectedXML(child)}
+                                onClick={() => handleClickBTN(child)}
                                 >
                                 
                                 {child.toUpperCase()}
@@ -135,7 +140,7 @@ function MainPage() {
 
 
                     </div>
-                    <XMLDetail xml_table={selectedXML} data={xmlDetail} />
+                    <XMLDetail xml_table={selectedXML} xml_data={xmlData} />
                     {/* <XML2Page data={xmlDetail['xml2']} />
                 <XML3Page data={xmlDetail['xml3']} />
                 <XML4Page data={xmlDetail['xml4']} />

@@ -2,7 +2,10 @@ import React, { useRef, useState, useEffect } from "react";
 import XML1Page from "./XML1Page";
 
 import XMLDetail from "./XMLDetail";
-
+import XML2Page from "./XML2Page";
+import XML3Page from "./XML3Page";
+import XML4Page from "./XML4Page";
+import XML5Page from "./XML5Page";
 import styles from "./styles.module.css";
 
 
@@ -16,7 +19,6 @@ function MainPage() {
     const [showAlert, setShowAlert] = useState(false);
     const [msgPopup, setMsgPopup] = useState('')
     const [selectedXML, setSelectedXML] = useState('xml2');
-    const [xmlData, setXmlData] = useState([]);
     const xml_childs = ['xml2', 'xml3', 'xml4', 'xml5'];
 
     const handleCloseAlert = () => {
@@ -86,10 +88,7 @@ function MainPage() {
 
     }, [MaLK]);
 
-    const handleClickBTN = (child) => {
-        setSelectedXML(child);
-        setXmlData(xmlDetail[child]);
-    }
+   
 
 
 
@@ -131,7 +130,7 @@ function MainPage() {
                         {xml_childs.map((child) => (
                             <button
                                 className={`rounded-t-md px-4 py-2 text-gray-700 ${selectedXML === child ? 'bg-blue-200 font-bold' : 'bg-white hover:bg-blue-100'}`} 
-                                onClick={() => handleClickBTN(child)}
+                                onClick={() => setSelectedXML(child)}
                                 >
                                 
                                 {child.toUpperCase()}
@@ -140,11 +139,10 @@ function MainPage() {
 
 
                     </div>
-                    <XMLDetail xml_table={selectedXML} xml_data={xmlData} />
-                    {/* <XML2Page data={xmlDetail['xml2']} />
+                    <XML2Page data={xmlDetail['xml2']} />
                 <XML3Page data={xmlDetail['xml3']} />
                 <XML4Page data={xmlDetail['xml4']} />
-                <XML5Page data={xmlDetail['xml5']} />  */}
+                <XML5Page data={xmlDetail['xml5']} /> 
                 </div>
 
             </div>

@@ -6,9 +6,9 @@ import XML3Page from "./XML3Page";
 import XML4Page from "./XML4Page";
 import XML5Page from "./XML5Page";
 
+import LoadingPopup from "./LoadingPopup";
+
 import styles from "./styles.module.css";
-
-
 import AlertPopup from "./AlertPopup";
 
 function MainPage() {
@@ -19,7 +19,11 @@ function MainPage() {
     const fileInputRef = useRef(null);
     const [xmlDetail, setXmlDetail] = useState({ 'xml2': [], 'xml3': [], 'xml4': [], 'xml5': [] });
     const [MaLK, setMaLK] = useState('');
+
     const [showAlert, setShowAlert] = useState(false);
+
+
+
     const [msgPopup, setMsgPopup] = useState('')
     const [selectedXML, setSelectedXML] = useState('xml2');
     const [xmlChilds, setXmlChild] = useState(['xml2', 'xml3', 'xml4', 'xml5']);
@@ -30,6 +34,7 @@ function MainPage() {
 
     const handleSelectChange = (event) => {
         setXmlType(event.target.value);
+       
         if (event.target.value === '4210') {
             setUrlAPI('http://127.0.0.1:5000/api4210/');
             setXmlChild(['xml2', 'xml3', 'xml4', 'xml5']);
@@ -53,11 +58,14 @@ function MainPage() {
             console.error('Error fetching data:', error);
         }
     };
+    const [isLoading, setIsLoading] = useState(false);
 
     const upload = (event) => {
         const fileInput = event.target;
         const files = fileInput.files;
         if (files.length > 0) {
+            setIsLoading(true);
+
             const formData = new FormData();
             for (let i = 0; i < files.length; i++) {
                 console.log(files[i])
@@ -79,9 +87,19 @@ function MainPage() {
                         setShowAlert(true);
                     }
                 })
-                .catch(error => console.error('Error:', error));
+                .catch(error => {
+                    console.error('Error:', error);
+                })
+                .finally(() => {
+                    // This block will be executed regardless of success or error
+                    setIsLoading(false);
+                    fileInputRef.current.value = null;
+                });
+
+
+
         }
-        fileInputRef.current.value = null;
+       
 
     };
 
@@ -187,7 +205,6 @@ function MainPage() {
                             <XML5Page xmlType={xmlType} data={xmlDetail['xml5']} />
                         }
                     </div>
-
                 </div>
 
             </div>
@@ -196,6 +213,9 @@ function MainPage() {
                 <AlertPopup message={msgPopup} onClose={handleCloseAlert} />
             }
 
+            {isLoading &&
+            <LoadingPopup />
+            }
 
         </div>
     )

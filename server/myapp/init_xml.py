@@ -3,110 +3,50 @@ from bs4 import BeautifulSoup
 
 class XMLObject():
     def __init__(self, xml_content):
-        
+        self.xml_table = [
+            {'name': 'XML1', 'tag_name_1':'', 'tag_name_2': 'TONG_HOP', 'content':''},
+            {'name': 'XML2', 'tag_name_1':'DSACH_CHI_TIET_THUOC', 'tag_name_2':'CHI_TIET_THUOC', 'content':''},
+            {'name': 'XML3', 'tag_name_1':'DSACH_CHI_TIET_DVKT', 'tag_name_2':'CHI_TIET_DVKT', 'content':''},
+            {'name': 'XML4', 'tag_name_1':'DSACH_CHI_TIET_CLS', 'tag_name_2':'CHI_TIET_CLS', 'content':''},
+            {'name': 'XML5', 'tag_name_1':'DSACH_CHI_TIET_DIEN_BIEN_BENH', 'tag_name_2':'CHI_TIET_DIEN_BIEN_BENH', 'content':''},
+            {'name': 'XML6', 'tag_name_1':'', 'tag_name_2': '', 'content':''},
+            {'name': 'XML7', 'tag_name_1':'', 'tag_name_2':'CHI_TIEU_DU_LIEU_GIAY_RA_VIEN', 'content':''},
+            {'name': 'XML8', 'tag_name_1':'', 'tag_name_2': 'CHI_TIEU_DU_LIEU_TOM_TAT_HO_SO_BENH_AN', 'content':''},
+            {'name': 'XML9', 'tag_name_1':'CHI_TIEU_DU_LIEU_GIAY_CHUNG_SINH', 'tag_name_2': 'DSACH_GIAYCHUNGSINH', 'content':''},
+            {'name': 'XML10', 'tag_name_1':'', 'tag_name_2': 'CHI_TIEU_DU_LIEU_GIAY_NGHI_DUONG_THAI', 'content':''},
+            {'name': 'XML11', 'tag_name_1':'', 'tag_name_2': 'CHI_TIEU_DU_LIEU_GIAY_CHUNG_NHAN_NGHI_VIEC_HUONG_BAO_HIEM_XA_HOI', 'content':''}
+        ]
         self.xml_content = BeautifulSoup(xml_content, "lxml")
-        self.xml1_content = ''
-        self.xml2_content = ''
-        self.xml3_content = ''
-        self.xml4_content = ''
-        self.xml5_content = ''
-        self.xml6_content = ''
-        self.xml7_content = ''
-        self.xml8_content = ''
-        self.xml9_content = ''
-        self.xml10_content = ''
-        self.xml11_content = ''
-        self.xml12_content = ''
-        
         file_hoso_list = self.xml_content.find_all('filehoso')
         for hoso in file_hoso_list:
             loaihs = hoso.find('loaihoso')
             ndfile = hoso.find('noidungfile')
-            match (loaihs.text):
-                case 'XML1':
-                    self.xml1_content = ndfile.text
-                case 'XML2':
-                    self.xml2_content = ndfile.text
-                case 'XML3':
-                    self.xml3_content = ndfile.text
-                case 'XML4':
-                    self.xml4_content = ndfile.text
-                case 'XML5':
-                    self.xml5_content = ndfile.text
-                case 'XML6':
-                    self.xml6_content = ndfile.text
-                case 'XML7':
-                    self.xml7_content = ndfile.text
-                case 'XML8':
-                    self.xml8_content = ndfile.text
-                case 'XML9':
-                    self.xml9_content = ndfile.text
-                case 'XML10':
-                    self.xml10_content = ndfile.text
-                case 'XML11':
-                    self.xml11_content = ndfile.text
-                case 'XML12':
-                    self.xml12_content = ndfile.text
+            for ele in self.xml_table:
+                if (ele['name'] == loaihs.text):
+                    ele['content'] = ndfile.text
+
         return
     
-
     def xml_detail(self, xmlType):
+        xml =  self.xml_table[xmlType-1]
+        xml_content = xml['content']
+        xml_tag_1 = xml['tag_name_1']
+        xml_tag_2 = xml['tag_name_2']
         result = []
-        match (xmlType):
-            case 1:
-                TAG_NAME1 = ''
-                TAG_NAME2 = 'TONG_HOP'
-                xml_content = self.xml1_content
-            case 2:
-                TAG_NAME1 = 'DSACH_CHI_TIET_THUOC'
-                TAG_NAME2 = 'CHI_TIET_THUOC'
-                xml_content = self.xml2_content
-            case 3:
-                TAG_NAME1 = 'DSACH_CHI_TIET_DVKT'
-                TAG_NAME2 = 'CHI_TIET_DVKT'
-                xml_content = self.xml3_content
-            case 4:
-                TAG_NAME1 = 'DSACH_CHI_TIET_CLS'
-                TAG_NAME2 = 'CHI_TIET_CLS'
-                xml_content = self.xml4_content
-            case 5:
-                TAG_NAME1 = 'DSACH_CHI_TIET_DIEN_BIEN_BENH'
-                TAG_NAME2 = 'CHI_TIET_DIEN_BIEN_BENH'
-                xml_content = self.xml5_content
-            case 7:
-                TAG_NAME1 = ''
-                TAG_NAME2 = 'CHI_TIEU_DU_LIEU_GIAY_RA_VIEN'
-                xml_content = self.xml2_content
-            case 8:
-                TAG_NAME1 = ''
-                TAG_NAME2 = 'CHI_TIEU_DU_LIEU_TOM_TAT_HO_SO_BENH_AN'
-                xml_content = self.xml3_content
-            case 9:
-                TAG_NAME1 = 'CHI_TIEU_DU_LIEU_GIAY_CHUNG_SINH'
-                TAG_NAME2 = 'DSACH_GIAYCHUNGSINH'
-                xml_content = self.xml4_content
-            case 10:
-                TAG_NAME1 = ''
-                TAG_NAME2 = 'CHI_TIEU_DU_LIEU_GIAY_NGHI_DUONG_THAI'
-                xml_content = self.xml5_content
-            case 10:
-                TAG_NAME1 = ''
-                TAG_NAME2 = 'CHI_TIEU_DU_LIEU_GIAY_CHUNG_NHAN_NGHI_VIEC_HUONG_BAO_HIEM_XA_HOI'
-                xml_content = self.xml5_content
-
+        
         if (xml_content != ''):
-            data_decode = base64.b64decode(self.xml1_content)
+            data_decode = base64.b64decode(xml_content)
             BSdata = BeautifulSoup(data_decode, "xml")
-            if (TAG_NAME1 == ''):
+            if (xml_tag_1 == ''):
                 obj = {}
-                detail = BSdata.find(TAG_NAME2)
+                detail = BSdata.find(xml_tag_2)
                 tags = detail.find_all()
                 for tag in tags:
                     obj[tag.name] = tag.text
                 result.append(obj)
             else:
-                detail_list = BSdata.find(TAG_NAME1)
-                details = detail_list.find_all(TAG_NAME2)
+                detail_list = BSdata.find(xml_tag_1)
+                details = detail_list.find_all(xml_tag_2)
                 for detail in details:
                     obj = {}
                     tags = detail.find_all()
@@ -114,12 +54,7 @@ class XMLObject():
                         obj[tag.name] = tag.text
                     result.append(obj)
             return result
-
-
-                
-            
-        
-                
+   
     def xml1(self):
         obj = {}
         if (self.xml1_content != ''):

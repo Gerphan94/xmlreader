@@ -106,20 +106,11 @@ def create_xml_130():
                 xml_obj = XMLObject(xml_content)
 
                 for index in range(1, 12):
+                    print(index)
                     if xml_obj.xml_detail(index):
                         collection_name = f'xml{index}_130'
                         mongo.db[collection_name].insert_many(xml_obj.xml_detail(index))
-               
-               
-                # if xml_obj.xml2():
-                #     mongo.db.xml2_130.insert_many(xml_obj.xml2())
-                # if xml_obj.xml3():
-                #     mongo.db.xml3_130.insert_many(xml_obj.xml3())
-                # if xml_obj.xml4():
-                #     mongo.db.xml4_130.insert_many(xml_obj.xml4())
-                # if xml_obj.xml5():
-                #     mongo.db.xml5_130.insert_many(xml_obj.xml5())
-                
+  
             else:
                 return jsonify({'error': 'Invalid file or file type not allowed'})
             

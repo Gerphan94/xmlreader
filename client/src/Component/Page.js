@@ -1,4 +1,8 @@
 import React, { useRef, useState, useEffect } from "react";
+import XML1Page2 from "./XML1";
+import XMLOther from "./XMLOther";
+
+
 import XML1Page from "./XML1Page";
 
 import XML2Page from "./XML2Page";
@@ -25,8 +29,8 @@ function MainPage() {
 
 
     const [msgPopup, setMsgPopup] = useState('')
-    const [selectedXML, setSelectedXML] = useState('xml2');
-    const [xmlChilds, setXmlChild] = useState(['xml2', 'xml3', 'xml4', 'xml5']);
+    const [selectedXML, setSelectedXML] = useState(2);
+    const [xmlChilds, setXmlChild] = useState([2,3,4,5]);
 
 
     const [xml1, setXml1] = useState([])
@@ -37,11 +41,11 @@ function MainPage() {
        
         if (event.target.value === '4210') {
             setUrlAPI('http://127.0.0.1:5000/api4210/');
-            setXmlChild(['xml2', 'xml3', 'xml4', 'xml5']);
+            setXmlChild([2,3,4,5]);
         }
         else {
             setUrlAPI('http://127.0.0.1:5000/api130/');
-            setXmlChild(['xml2', 'xml3', 'xml4', 'xml5', 'xml7', 'xml8','xml9','xml10']);
+            setXmlChild([2,3,4,5,7,8,9,10,11]);
         }
     };
 
@@ -177,7 +181,8 @@ function MainPage() {
 
             <div className={styles.MainPage}>
                 <div className="h-1/3">
-                    <XML1Page xmlType={xmlType} data={xml1} setMaLK={setMaLK} />
+                    <XML1Page2  xmlType={xmlType} data={xml1} setMaLK={setMaLK} />
+                    {/* <XML1Page xmlType={xmlType} data={xml1} setMaLK={setMaLK} /> */}
                 </div>
                 <div className="h-2/3 mt-10 pb-20">
                     <div className="flex h-10">
@@ -187,23 +192,12 @@ function MainPage() {
                                 onClick={() => setSelectedXML(child)}
                             >
 
-                                {child.toUpperCase()}
+                                XML{child}
                             </button>
                         ))}
                     </div>
                     <div className={styles.DetailBox}>
-                        {(selectedXML === 'xml2') &&
-                            <XML2Page xmlType={xmlType} data={xmlDetail['xml2']} />
-                        }
-                        {(selectedXML === 'xml3') &&
-                            <XML3Page xmlType={xmlType} data={xmlDetail['xml3']} />
-                        }
-                        {(selectedXML === 'xml4') &&
-                            <XML4Page xmlType={xmlType} data={xmlDetail['xml4']} />
-                        }
-                        {(selectedXML === 'xml5') &&
-                            <XML5Page xmlType={xmlType} data={xmlDetail['xml5']} />
-                        }
+                        <XMLOther xmlType={xmlType} xmlNumber={selectedXML} data={xmlDetail}  />
                     </div>
                 </div>
 

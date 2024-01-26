@@ -1,15 +1,6 @@
 import React, { useRef, useState, useEffect } from "react";
-import XML1Page2 from "./XML1";
+import XML1Page from "./XML1";
 import XMLOther from "./XMLOther";
-
-
-import XML1Page from "./XML1Page";
-
-import XML2Page from "./XML2Page";
-import XML3Page from "./XML3Page";
-import XML4Page from "./XML4Page";
-import XML5Page from "./XML5Page";
-
 import LoadingPopup from "./LoadingPopup";
 
 import styles from "./styles.module.css";
@@ -19,19 +10,13 @@ function MainPage() {
 
     const [xmlType, setXmlType] = useState('4210');
     const [urlAPI, setUrlAPI] = useState('http://127.0.0.1:5000/api4210/')
-
     const fileInputRef = useRef(null);
     const [xmlDetail, setXmlDetail] = useState({ 'xml2': [], 'xml3': [], 'xml4': [], 'xml5': [] });
     const [MaLK, setMaLK] = useState('');
-
     const [showAlert, setShowAlert] = useState(false);
-
-
-
     const [msgPopup, setMsgPopup] = useState('')
     const [selectedXML, setSelectedXML] = useState(2);
     const [xmlChilds, setXmlChild] = useState([2,3,4,5]);
-
 
     const [xml1, setXml1] = useState([])
 
@@ -72,7 +57,6 @@ function MainPage() {
 
             const formData = new FormData();
             for (let i = 0; i < files.length; i++) {
-                console.log(files[i])
                 formData.append('files', files[i]);
             }
 
@@ -157,7 +141,7 @@ function MainPage() {
                     </div>
 
                     <form>
-                        <div class="flex items-center h-full mr-10">
+                        <div className="flex items-center h-full mr-10">
                             <input
                                 type="file"
                                 id="select-file"
@@ -168,12 +152,12 @@ function MainPage() {
                                 accept="application/xml"
                             />
                             <label
-                                for="select-file"
+                                htmlFor="select-file"
                                 className="border border-w block text-sm mr-4 py-2 px-4 rounded-md font-semibold bg-blue-300 hover:bg-blue-500 text-white cursor-pointer"
                             >
                                 Choose file
                             </label>
-                            <label class="text-sm text-slate-500">{ }</label>
+                            <label className="text-sm text-slate-500">{ }</label>
                         </div>
                     </form>
                 </div>
@@ -181,13 +165,14 @@ function MainPage() {
 
             <div className={styles.MainPage}>
                 <div className="h-1/3">
-                    <XML1Page2  xmlType={xmlType} data={xml1} setMaLK={setMaLK} />
+                    <XML1Page  xmlType={xmlType} data={xml1} setMaLK={setMaLK} />
                     {/* <XML1Page xmlType={xmlType} data={xml1} setMaLK={setMaLK} /> */}
                 </div>
                 <div className="h-2/3 mt-10 pb-20">
                     <div className="flex h-10">
                         {xmlChilds.map((child) => (
                             <button
+                                key={child}
                                 className={`rounded-t-md px-4 py-2 text-gray-700 ${selectedXML === child ? 'bg-blue-200 font-bold' : 'bg-white hover:bg-blue-100'}`}
                                 onClick={() => setSelectedXML(child)}
                             >

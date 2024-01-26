@@ -46,15 +46,12 @@ def create_xml():
                 # Read the content of the XML file
                 xml_content = file.read()
                 xml_obj = XMLObject(xml_content)
-                mongo.db.xml1.insert_one(xml_obj.xml1())
-                if xml_obj.xml2():
-                    mongo.db.xml2.insert_many(xml_obj.xml2())
-                if xml_obj.xml3():
-                    mongo.db.xml3.insert_many(xml_obj.xml3())
-                if xml_obj.xml4():
-                    mongo.db.xml4.insert_many(xml_obj.xml4())
-                if xml_obj.xml5():
-                    mongo.db.xml5.insert_many(xml_obj.xml5())
+
+                for index in range(1, 12):
+                    print(index)
+                    if xml_obj.xml_detail(index):
+                        collection_name = f'xml{index}'
+                        mongo.db[collection_name].insert_many(xml_obj.xml_detail(index))
             else:
                 return jsonify({'error': 'Invalid file or file type not allowed'})
             

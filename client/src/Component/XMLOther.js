@@ -1,16 +1,9 @@
-import React, { useState } from "react";
+import React, {  } from "react";
 import XmlTag4210 from  "./XmlTag4210.json"
 import XmlTag130 from "./XmlTag130.json"
 
 function XMLOther({ xmlType, xmlNumber, data }) {
-
-    const headerStyles = {
-        'MO_TA': 'max-w-xl truncate',
-        'OTHER_CONDITION_1': 'other-styles-1',
-        'OTHER_CONDITION_2': 'other-styles-2',
-        // Add more conditions as needed
-      };
-
+    
     let head_tb;
     if (xmlType === '4210') {
         head_tb = XmlTag4210[xmlNumber-1]['tag'];

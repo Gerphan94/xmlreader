@@ -139,6 +139,7 @@ function MainPage() {
                             ></input>
                         </div>
                     </div>
+                    
 
                     <form>
                         <div className="flex items-center h-full mr-10">
@@ -157,7 +158,6 @@ function MainPage() {
                             >
                                 Choose file
                             </label>
-                            <label className="text-sm text-slate-500">{ }</label>
                         </div>
                     </form>
                 </div>
@@ -176,7 +176,6 @@ function MainPage() {
                                 className={`rounded-t-md px-4 py-2 text-gray-700 ${selectedXML === child ? 'bg-blue-200 font-bold' : 'bg-white hover:bg-blue-100'}`}
                                 onClick={() => setSelectedXML(child)}
                             >
-
                                 XML{child}
                             </button>
                         ))}

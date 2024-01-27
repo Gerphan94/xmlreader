@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { FaCheck } from "react-icons/fa6";
+import { FaCheck, FaChevronUp, FaChevronDown   } from "react-icons/fa6";
 import XmlTag4210 from "./XmlTag4210.json"
 import XmlTag130 from "./XmlTag130.json"
 
@@ -14,6 +14,10 @@ function XML1Page({ xmlType, data, setMaLK }) {
     }
 
     const [sortedData, setSortedData] = useState([])
+
+    const [tableHeight, setTableHeight] = useState('h-full')
+
+
 
 
     useEffect(() => {
@@ -36,14 +40,20 @@ function XML1Page({ xmlType, data, setMaLK }) {
 
     return (
         <>
-            <div className="relative overflow-x-auto shadow-md w-full h-full">
+            <div className={`relative overflow-x-auto shadow-md w-full ${tableHeight}`}>
                 <table className=" w-full  text-sm text-left rtl:text-right text-gray-500 ">
                     <thead className="sticky top-0 text-md text-gray-700 uppercase bg-blue-200">
                         <tr>
-                            <th cscope="col" className="px-6 py-2"></th>
+                            <th cscope="col" className="px-4 py-2">
+                                <button className="w-full border border-white px-4 py-1 cursor-pointer rounded-md">
+                                <FaChevronUp className=" " />
+                                </button>
+                                
+                            </th>
                             {head_tb.slice(1).map((header, index) => (
-                                <th key={index} cscope="col" className="px-6 py-2">{header.name}</th>
+                                <th key={index} cscope="col" className="px-6 py-2 z-10">{header.name}</th>
                             ))}
+                           
                         </tr>
                     </thead>
                     {/* Add the rest of your table body here */}
@@ -65,7 +75,9 @@ function XML1Page({ xmlType, data, setMaLK }) {
                                         >
                                             {item[header.name]}
                                         </td>
+                                        
                                     ))}
+                                   
                                 </tr>
                             ))}
 

@@ -53,3 +53,5 @@ class XMLObject():
                         obj[tag.name] = tag.text
                     result.append(obj)
             return result
+        
+   

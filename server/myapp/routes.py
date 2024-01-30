@@ -46,12 +46,15 @@ def create_xml():
                 # Read the content of the XML file
                 xml_content = file.read()
                 xml_obj = XMLObject(xml_content)
-
-                for index in range(1, 12):
+                inserted_ar = []
+                obj = {}
+                for index in range(1, 5):
                     print(index)
                     if xml_obj.xml_detail(index):
-                        collection_name = f'xml{index}'
-                        mongo.db[collection_name].insert_many(xml_obj.xml_detail(index))
+                        obj_tab = f"xml{index}"
+                        obj[obj_tab] = xml_obj.xml_detail(index)
+                        inserted_ar.append(obj)
+                mongo.db.xml4210.insert_many(inserted_ar)
             else:
                 return jsonify({'error': 'Invalid file or file type not allowed'})
             
@@ -62,13 +65,16 @@ def create_xml():
     except Exception as e:
         print(str(e))
         return jsonify({'error': str(e)})
-
-
+    
+@main.route('/api/drop_all', methods=['GET'])
+def drop_all():
+    drop_all_collection_4210()
+    drop_all_collection__130()
 
 
 @main.route('/api4210/get_xml1s', methods=['GET'])
 def get_xmls():
-    xml1s = mongo.db.xml1.find()
+    xml1s = mongo.db.xml4210.find()
     return json.loads(json_util.dumps(list(xml1s)))
 
 @main.route('/api4210/get_xml_other/<ma_lk>', methods=['GET'])

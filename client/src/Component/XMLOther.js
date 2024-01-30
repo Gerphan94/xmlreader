@@ -2,7 +2,7 @@ import React, {  } from "react";
 import XmlTag4210 from  "./XmlTag4210.json"
 import XmlTag130 from "./XmlTag130.json"
 
-function XMLOther({ xmlType, xmlNumber, data }) {
+function XMLOther({ xmlType, xmlNumber, data, setIsInfoShow,  setTagInfo}) {
     
     let head_tb;
     if (xmlType === '4210') {
@@ -14,6 +14,13 @@ function XMLOther({ xmlType, xmlNumber, data }) {
 
     const values = data['xml'+xmlNumber]
 
+    const handClickHeader = (name, des) => {
+        setIsInfoShow(true);
+        setTagInfo({ "title": name, "des": des })
+    }
+
+
+
     return (
         <>
                 <div className="relative overflow-x-auto shadow-md w-full h-full">
@@ -21,7 +28,12 @@ function XMLOther({ xmlType, xmlNumber, data }) {
                         <thead className="sticky top-0 text-xs text-gray-700 uppercase bg-blue-200">
                             <tr>
                                 {head_tb.slice(1).map((header, index) => (
-                                    <th key={index} cscope="col" className="px-6 py-3 whitespace-nowrap">{header.name}</th>
+                                    <th key={index} cscope="col" className="px-6 py-3 whitespace-nowrap">
+                                        <div className="cursor-pointer" onClick={() => handClickHeader(header.name, header.des)}>
+                                        {header.name}
+                                        </div>
+                                        
+                                       </th>
                                 ))}
                             </tr>
                         </thead>
@@ -34,11 +46,10 @@ function XMLOther({ xmlType, xmlNumber, data }) {
                                     {head_tb.slice(1).map((header, colIndex) => (
                                         <td
                                             key={colIndex}
-                                            className={`px-6 py-1 whitespace-nowrap ${header.css} `}
+                                            className={`px-6 py-1 whitespace-nowrap ${header['css']} `}
                                         >
-                        
-                                            {item[header.name]}
                                             
+                                                {item[header.name]}
                                         </td>
                                     ))}
                                 </tr>

@@ -4,10 +4,7 @@ module.exports = {
     "./src/**/*.{js,jsx,ts,tsx}",
   ],
   theme: {
-    extend: {
-   
-    
-},
+    extend: {},
     keyframes: {
       'slide-in': {
         '0%': { transform: 'translateX(100%)' },
@@ -24,7 +21,7 @@ module.exports = {
     },
   },
   plugins: [
-    require('@tailwindcss/line-clamp')
+    
   ],
 }
 

@@ -2,9 +2,13 @@ import React, { useRef, useState, useEffect } from "react";
 import XML1Page from "./XML1";
 import XMLOther from "./XMLOther";
 import LoadingPopup from "./LoadingPopup";
+import InfoModal from "./InfoModal";
 
 import styles from "./styles.module.css";
 import AlertPopup from "./AlertPopup";
+import { FaEye } from "react-icons/fa6";
+
+
 
 function MainPage() {
 
@@ -16,21 +20,22 @@ function MainPage() {
     const [showAlert, setShowAlert] = useState(false);
     const [msgPopup, setMsgPopup] = useState('')
     const [selectedXML, setSelectedXML] = useState(2);
-    const [xmlChilds, setXmlChild] = useState([2,3,4,5]);
+    const [xmlChilds, setXmlChild] = useState([2, 3, 4, 5]);
 
     const [xml1, setXml1] = useState([])
-
+    const [isInfoShow, setIsInfoShow] = useState(false);
+    const [tagInfo, setTagInfo] = useState({ "title": "", "des": "" })
 
     const handleSelectChange = (event) => {
         setXmlType(event.target.value);
-       
+
         if (event.target.value === '4210') {
             setUrlAPI('http://127.0.0.1:5000/api4210/');
-            setXmlChild([2,3,4,5]);
+            setXmlChild([2, 3, 4, 5]);
         }
         else {
             setUrlAPI('http://127.0.0.1:5000/api130/');
-            setXmlChild([2,3,4,5,7,8,9,10,11]);
+            setXmlChild([2, 3, 4, 5, 7, 8, 9, 10, 11]);
         }
     };
 
@@ -83,11 +88,8 @@ function MainPage() {
                     setIsLoading(false);
                     fileInputRef.current.value = null;
                 });
-
-
-
         }
-       
+
 
     };
 
@@ -111,6 +113,39 @@ function MainPage() {
         }
 
     }, [MaLK]);
+    // xml1 height and xmlother height
+
+    const [xmlView, setXmlView] = useState(0);
+    const [xml1H, setXml1H] = useState('h-1/3')
+    const [xmlOtherH, setXmlOtherH] = useState('h-2/3')
+
+    const handleClickView = () => {
+        if (xmlView === 2) {
+            setXmlView(0);
+        }
+        else {
+            setXmlView(xmlView + 1);
+        }
+    }
+
+    useEffect(() => {
+        console.log(xmlView);
+        if (xmlView === 0) {
+            setXml1H('h-1/3');
+            setXmlOtherH('h-2/3');
+
+        } else {
+            if (xmlView === 1) {
+                setXml1H('h-1/6');
+                setXmlOtherH('h-5/6');
+            } else {
+                setXml1H('h-5/6');
+                setXmlOtherH('h-1/6');
+            }
+        }
+
+    }, [xmlView])
+
 
     return (
         <div>
@@ -139,36 +174,58 @@ function MainPage() {
                             ></input>
                         </div>
                     </div>
-                    
 
-                    <form>
-                        <div className="flex items-center h-full mr-10">
-                            <input
-                                type="file"
-                                id="select-file"
-                                hidden
-                                ref={fileInputRef}
-                                onChange={upload}
-                                multiple
-                                accept="application/xml"
-                            />
-                            <label
-                                htmlFor="select-file"
-                                className="border border-w block text-sm mr-4 py-2 px-4 rounded-md font-semibold bg-blue-300 hover:bg-blue-500 text-white cursor-pointer"
+                    <div className="flex justify-between items-center gap-2 px-4">
+                        <div className="flex items-center ">
+                            <button
+                                className="text-2xl text-blue-200 hover:text-blue-500"
+                                onClick={() => handleClickView()}
                             >
-                                Choose file
-                            </label>
+                                <FaEye />
+                            </button>
                         </div>
-                    </form>
+
+                        <button className="font-semibold bg-blue-300 hover:bg-blue-500 text-white cursor-pointer border py-2 px-4 rounded-md text-sm min-w-24">Test</button>
+
+                        
+                            <div className="flex items-center">
+                                <input
+                                    type="file"
+                                    id="select-file"
+                                    hidden
+                                    ref={fileInputRef}
+                                    onChange={upload}
+                                    multiple
+                                    accept="application/xml"
+                                />
+                                <label
+                                    htmlFor="select-file"
+                                    className="border border-w flex text-sm h-full py-2 px-4 rounded-md font-semibold bg-blue-300 hover:bg-blue-500 text-white cursor-pointer"
+                                >
+                                    Choose file
+                                </label>
+                            </div>
+
+                    </div>
+
+
+
+
                 </div>
             </div>
 
             <div className={styles.MainPage}>
-                <div className="h-1/3">
-                    <XML1Page  xmlType={xmlType} data={xml1} setMaLK={setMaLK} />
+                <div className={xml1H}>
+                    <XML1Page
+                        xmlType={xmlType}
+                        data={xml1}
+                        setMaLK={setMaLK}
+                        setIsInfoShow={setIsInfoShow}
+                        setTagInfo={setTagInfo}
+                    />
                     {/* <XML1Page xmlType={xmlType} data={xml1} setMaLK={setMaLK} /> */}
                 </div>
-                <div className="h-2/3 mt-10 pb-20">
+                <div className={`${xmlOtherH} mt-10 pb-20 z-50`}>
                     <div className="flex h-10">
                         {xmlChilds.map((child) => (
                             <button
@@ -181,7 +238,14 @@ function MainPage() {
                         ))}
                     </div>
                     <div className={styles.DetailBox}>
-                        <XMLOther xmlType={xmlType} xmlNumber={selectedXML} data={xmlDetail}  />
+                        <XMLOther
+                            xmlType={xmlType}
+                            xmlNumber={selectedXML}
+                            data={xmlDetail}
+                            setIsInfoShow={setIsInfoShow}
+                            setTagInfo={setTagInfo}
+
+                        />
                     </div>
                 </div>
 
@@ -192,7 +256,11 @@ function MainPage() {
             }
 
             {isLoading &&
-            <LoadingPopup />
+                <LoadingPopup />
+            }
+
+            {isInfoShow &&
+                <InfoModal setIsInfoShow={setIsInfoShow} tagInfo={tagInfo} />
             }
 
         </div>

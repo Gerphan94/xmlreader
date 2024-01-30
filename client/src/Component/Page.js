@@ -13,7 +13,7 @@ import { FaEye } from "react-icons/fa6";
 function MainPage() {
 
     const [xmlType, setXmlType] = useState('4210');
-    const [urlAPI, setUrlAPI] = useState('http://127.0.0.1:5000/api4210/')
+    const [urlAPI, setUrlAPI] = useState('http://127.0.0.1:5000/api/')
     const fileInputRef = useRef(null);
     const [xmlDetail, setXmlDetail] = useState({ 'xml2': [], 'xml3': [], 'xml4': [], 'xml5': [] });
     const [MaLK, setMaLK] = useState('');
@@ -45,7 +45,7 @@ function MainPage() {
 
     const fetchXML1Data = async () => {
         try {
-            const response = await fetch(urlAPI + 'get_xml1s');
+            const response = await fetch(urlAPI + 'get_xml4210');
             const data = await response.json();
             setXml1(data);
         } catch (error) {

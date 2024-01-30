@@ -72,6 +72,12 @@ def drop_all():
     drop_all_collection__130()
 
 
+@main.route('/api/get_xml4210', methods=['GET'])
+def get_xml4210():
+    xml4210 = mongo.db.xml4210.find()
+    return json.loads(json_util.dumps(list(xml4210)))
+
+
 @main.route('/api4210/get_xml1s', methods=['GET'])
 def get_xmls():
     xml1s = mongo.db.xml4210.find()

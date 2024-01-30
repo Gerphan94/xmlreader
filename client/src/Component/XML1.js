@@ -5,7 +5,7 @@ import XmlTag130 from "./XmlTag130.json"
 
 
 function XML1Page({ xmlType, data, setMaLK, setIsInfoShow, setTagInfo }) {
-
+    console.log(data)
     let head_tb;
     if (xmlType === '4210') {
         head_tb = XmlTag4210[0]['tag'];

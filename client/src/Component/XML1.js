@@ -4,8 +4,8 @@ import XmlTag4210 from "./XmlTag4210.json"
 import XmlTag130 from "./XmlTag130.json"
 
 
-function XML1Page({ xmlType, data, setMaLK, setIsInfoShow, setTagInfo }) {
-    console.log(data)
+function XML1Page({ xmlType, data, setXmlID, setIsInfoShow, setTagInfo }) {
+    
     let head_tb;
     if (xmlType === '4210') {
         head_tb = XmlTag4210[0]['tag'];
@@ -15,13 +15,13 @@ function XML1Page({ xmlType, data, setMaLK, setIsInfoShow, setTagInfo }) {
     }
 
     const [sortedData, setSortedData] = useState([]);
-
+    
     useEffect(() => {
         // Assuming 'STT' is a numeric property, you can sort the data like this:
         const sorted = [...data].sort((a, b) => {
             // Convert 'STT' values to numbers for proper numeric sorting
-            const sttA = parseFloat(a.STT);
-            const sttB = parseFloat(b.STT);
+            const sttA = parseFloat(a.xml1.STT);
+            const sttB = parseFloat(b.xml1.STT);
             return sttA - sttB;
         });
 
@@ -29,8 +29,8 @@ function XML1Page({ xmlType, data, setMaLK, setIsInfoShow, setTagInfo }) {
     }, [data]);
 
     const [selectedRow, setSelectedRow] = useState(-1);
-    const handleClick = (index, ma_lk) => {
-        setMaLK(ma_lk);
+    const handleClick = (index, id) => {
+        setXmlID(id['$oid']);
         setSelectedRow(index);
     }
 
@@ -38,8 +38,6 @@ function XML1Page({ xmlType, data, setMaLK, setIsInfoShow, setTagInfo }) {
         setIsInfoShow(true);
         setTagInfo({ "title": name, "des": des })
     }
-
-
 
     return (
         <>
@@ -71,7 +69,7 @@ function XML1Page({ xmlType, data, setMaLK, setIsInfoShow, setTagInfo }) {
                         {sortedData.map((item, rowIndex) => (
                             <tr
                                 key={rowIndex}
-                                onClick={() => handleClick(rowIndex, item['MA_LK'])}
+                                onClick={() => handleClick(rowIndex, item['_id'])}
                                 className={` border-b  dark:border-gray-700 hover:bg-blue-100 cursor-default ${selectedRow === rowIndex ? 'bg-blue-100' : 'bg-white'}`}
                             >
                                 <td className="p-1 text-green-500 flex justify-center">
@@ -82,7 +80,7 @@ function XML1Page({ xmlType, data, setMaLK, setIsInfoShow, setTagInfo }) {
                                         key={colIndex} 
                                         className={`px-3 py-1 whitespace-nowrap ${header.align === 'center' ? 'text-center' : (header.align === 'right' ? 'text-right' : 'text-left')}`}
                                     >
-                                            {item[header.name]}
+                                            {item['xml1'][header.name]}
                                     </td>
 
                                 ))}

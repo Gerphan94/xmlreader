@@ -12,11 +12,13 @@ import { FaEye } from "react-icons/fa6";
 
 function MainPage() {
 
+    const urlAPI = "http://127.0.0.1:5000/api/"
+
     const [xmlType, setXmlType] = useState('4210');
-    const [urlAPI, setUrlAPI] = useState('http://127.0.0.1:5000/api/')
+    // const [urlAPI, setUrlAPI] = useState('http://127.0.0.1:5000/api4210/')
     const fileInputRef = useRef(null);
     const [xmlDetail, setXmlDetail] = useState({ 'xml2': [], 'xml3': [], 'xml4': [], 'xml5': [] });
-    const [MaLK, setMaLK] = useState('');
+    const [xmlID, setXmlID] = useState('');
     const [showAlert, setShowAlert] = useState(false);
     const [msgPopup, setMsgPopup] = useState('')
     const [selectedXML, setSelectedXML] = useState(2);
@@ -30,11 +32,9 @@ function MainPage() {
         setXmlType(event.target.value);
 
         if (event.target.value === '4210') {
-            setUrlAPI('http://127.0.0.1:5000/api4210/');
             setXmlChild([2, 3, 4, 5]);
         }
         else {
-            setUrlAPI('http://127.0.0.1:5000/api130/');
             setXmlChild([2, 3, 4, 5, 7, 8, 9, 10, 11]);
         }
     };
@@ -45,11 +45,16 @@ function MainPage() {
 
     const fetchXML1Data = async () => {
         try {
-            const response = await fetch(urlAPI + 'get_xml4210');
+            setIsLoading(true);
+            const response = await fetch(urlAPI + 'get_xml1s/' + xmlType);
             const data = await response.json();
             setXml1(data);
+            console.log('chekcing-----', data)
         } catch (error) {
             console.error('Error fetching data:', error);
+        }
+        finally {
+            setIsLoading(false);
         }
     };
     const [isLoading, setIsLoading] = useState(false);
@@ -67,17 +72,16 @@ function MainPage() {
 
             // Now you can send this formData to your backend API
             // Example using fetch:
-            fetch(urlAPI + 'create_xml', { method: 'POST', body: formData, })
+            fetch(urlAPI + 'create_xml/' + xmlType, { method: 'POST', body: formData, })
                 .then(response => {
                     // Check if the response status is OK (status code between 200 and 299)
                     if (response.ok) {
                         setMsgPopup("Uploaded successfully");
-                        setShowAlert(true);
+                        
                         fetchXML1Data()
                     }
                     else {
                         setMsgPopup("Error occured!");
-                        setShowAlert(true);
                     }
                 })
                 .catch(error => {
@@ -85,7 +89,9 @@ function MainPage() {
                 })
                 .finally(() => {
                     // This block will be executed regardless of success or error
-                    setIsLoading(false);
+                    // setIsLoading(false);
+
+                    setShowAlert(true);
                     fileInputRef.current.value = null;
                 });
         }
@@ -94,25 +100,27 @@ function MainPage() {
     };
 
     useEffect(() => {
-        console.log("Fetch data", urlAPI);
+        console.log("-----Start -----")
+        
         fetchXML1Data();
+        
     }, [xmlType]);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch(urlAPI + 'get_xml_other/' + MaLK);
+                const response = await fetch(urlAPI + 'get_otherxml/' + xmlID);
                 const data = await response.json();
                 setXmlDetail(data);
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
         };
-        if (MaLK) {
+        if (xmlID) {
             fetchData();
         }
 
-    }, [MaLK]);
+    }, [xmlID]);
     // xml1 height and xmlother height
 
     const [xmlView, setXmlView] = useState(0);
@@ -186,8 +194,6 @@ function MainPage() {
                         </div>
 
                         <button className="font-semibold bg-blue-300 hover:bg-blue-500 text-white cursor-pointer border py-2 px-4 rounded-md text-sm min-w-24">Test</button>
-
-                        
                             <div className="flex items-center">
                                 <input
                                     type="file"
@@ -206,11 +212,7 @@ function MainPage() {
                                 </label>
                             </div>
 
-                    </div>
-
-
-
-
+                    </div> 
                 </div>
             </div>
 
@@ -219,11 +221,11 @@ function MainPage() {
                     <XML1Page
                         xmlType={xmlType}
                         data={xml1}
-                        setMaLK={setMaLK}
+                        setXmlID={setXmlID}
                         setIsInfoShow={setIsInfoShow}
                         setTagInfo={setTagInfo}
                     />
-                    {/* <XML1Page xmlType={xmlType} data={xml1} setMaLK={setMaLK} /> */}
+                    {/* <XML1Page xmlType={xmlType} data={xml1} setXmlID={setXmlID} /> */}
                 </div>
                 <div className={`${xmlOtherH} mt-10 pb-20 z-50`}>
                     <div className="flex h-10">

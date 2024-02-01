@@ -17,7 +17,7 @@ function MainPage() {
     const [xmlType, setXmlType] = useState('4210');
     // const [urlAPI, setUrlAPI] = useState('http://127.0.0.1:5000/api4210/')
     const fileInputRef = useRef(null);
-    const [xmlDetail, setXmlDetail] = useState({ 'xml2': [], 'xml3': [], 'xml4': [], 'xml5': [] });
+    const [xmlDetail, setXmlDetail] = useState({});
     const [xmlID, setXmlID] = useState('');
     const [showAlert, setShowAlert] = useState(false);
     const [msgPopup, setMsgPopup] = useState('')

@@ -85,7 +85,5 @@ def get_otherxml(id):
     objId = ObjectId(id)
     print(objId)
     xml = mongo.db.xml4210.find({"_id": objId})
-    print(list(xml))
-    
-    
-    return json.loads(json_util.dumps(list(xml)))
+    print(xml[0])
+    return json.loads(json_util.dumps(xml[0]))

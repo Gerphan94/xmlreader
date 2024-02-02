@@ -3,6 +3,7 @@ from flask_pymongo import PyMongo
 from bson import json_util, ObjectId
 import json
 from .init_xml import XMLObject
+from .xml_check import XmlCheck_4210
 import datetime as dt
 
 
@@ -12,24 +13,6 @@ main = Blueprint('main', __name__)
 # Define a function to check if the file has an allowed extension
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() == 'xml'
-
-def drop_all_collection_4210():
-    mongo.db.drop_collection('xml1')
-    mongo.db.drop_collection('xml2')
-    mongo.db.drop_collection('xml3')
-    mongo.db.drop_collection('xml4')
-    mongo.db.drop_collection('xml5')
-    print("Droped all collection")
-
-def drop_all_collection__130():
-    mongo.db.drop_collection('xml1_130')
-    mongo.db.drop_collection('xml2_130')
-    mongo.db.drop_collection('xml3_130')
-    mongo.db.drop_collection('xml4_130')
-    mongo.db.drop_collection('xml5_130')
-    print("Droped all collection")
-    
-    
 
 @main.errorhandler(404)
 def handle_404_error(_error):
@@ -83,7 +66,14 @@ def get_xml1s(xml_type):
 @main.route('/api/get_otherxml/<id>', methods=['GET'])
 def get_otherxml(id):
     objId = ObjectId(id)
-    print(objId)
     xml = mongo.db.xml4210.find({"_id": objId})
     print(xml[0])
     return json.loads(json_util.dumps(xml[0]))
+
+@main.route('/api/xml_check/<id>', methods=['GET'])
+def xml_check(id):
+    objId = ObjectId(id)
+    xml = mongo.db.xml4210.find({"_id": objId})
+    xml_check = XmlCheck_4210(xml[0])
+    
+    return jsonify({'error': 'âsasas'})    

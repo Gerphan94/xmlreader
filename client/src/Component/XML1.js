@@ -5,7 +5,7 @@ import XmlTag130 from "./XmlTag130.json"
 
 
 function XML1Page({ xmlType, data, setXmlID, setIsInfoShow, setTagInfo }) {
-    
+    console.log('HI--------',data);
     let head_tb;
     if (xmlType === '4210') {
         head_tb = XmlTag4210[0]['tag'];
@@ -20,8 +20,8 @@ function XML1Page({ xmlType, data, setXmlID, setIsInfoShow, setTagInfo }) {
         // Assuming 'STT' is a numeric property, you can sort the data like this:
         const sorted = [...data].sort((a, b) => {
             // Convert 'STT' values to numbers for proper numeric sorting
-            const sttA = parseFloat(a.xml1.STT);
-            const sttB = parseFloat(b.xml1.STT);
+            const sttA = parseFloat(a[1].xml1.content);
+            const sttB = parseFloat(b[1].xml1.content);
             return sttA - sttB;
         });
 
@@ -80,7 +80,7 @@ function XML1Page({ xmlType, data, setXmlID, setIsInfoShow, setTagInfo }) {
                                         key={colIndex} 
                                         className={`px-3 py-1 whitespace-nowrap ${header.align === 'center' ? 'text-center' : (header.align === 'right' ? 'text-right' : 'text-left')}`}
                                     >
-                                            {item['xml1'][header.name]}
+                                            {item}
                                     </td>
 
                                 ))}

@@ -41,16 +41,27 @@ class XMLObject():
                 detail = BSdata.find(xml_tag_2)
                 tags = detail.find_all()
                 for tag in tags:
-                    obj[tag.name] = tag.text
-                result.append(obj)
+                    child_obj = {}
+
+                    child_obj['tag_name'] = tag.name
+                    child_obj['content'] = tag.text
+                    child_obj['error'] = False
+                    child_obj['error_detail'] = ''
+                    result.append(child_obj)  
+                # result.append(obj)
             else:
                 detail_list = BSdata.find(xml_tag_1)
                 details = detail_list.find_all(xml_tag_2)
                 for detail in details:
-                    obj = {}
+                    obj = []
                     tags = detail.find_all()
                     for tag in tags:
-                        obj[tag.name] = tag.text
+                        child_obj = {}
+                        child_obj['tag_name'] = tag.name
+                        child_obj['content'] = tag.text
+                        child_obj['error'] = False
+                        child_obj['error_detail'] = ''
+                        # obj[tag.name] = tag.text
                     result.append(obj)
             return result
         

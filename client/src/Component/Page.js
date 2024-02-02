@@ -218,13 +218,16 @@ function MainPage() {
 
             <div className={styles.MainPage}>
                 <div className={xml1H}>
+                    {xml1 && xml1.length > 0 &&
                     <XML1Page
-                        xmlType={xmlType}
-                        data={xml1}
-                        setXmlID={setXmlID}
-                        setIsInfoShow={setIsInfoShow}
-                        setTagInfo={setTagInfo}
-                    />
+                    xmlType={xmlType}
+                    data={xml1}
+                    setXmlID={setXmlID}
+                    setIsInfoShow={setIsInfoShow}
+                    setTagInfo={setTagInfo}
+                />
+                    }
+                    
                     {/* <XML1Page xmlType={xmlType} data={xml1} setXmlID={setXmlID} /> */}
                 </div>
                 <div className={`${xmlOtherH} mt-10 pb-20 z-50`}>

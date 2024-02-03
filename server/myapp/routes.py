@@ -12,7 +12,7 @@ main = Blueprint('main', __name__)
 
 # Define a function to check if the file has an allowed extension
 def allowed_file(filename):
-    return '.' in filename and filename.rsplit('.', 1)[1].lower() == 'xml'
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() == 'xml' 
 
 @main.errorhandler(404)
 def handle_404_error(_error):
@@ -52,7 +52,6 @@ def create_xml(xml_type):
     
 @main.route('/api/get_xml1s/<xml_type>', methods=['GET'])
 def get_xml1s(xml_type):
-    print(xml_type)
     result_ar = []
     if (xml_type == '4210'):
         xml4210 = mongo.db.xml4210.find()
@@ -66,14 +65,19 @@ def get_xml1s(xml_type):
 @main.route('/api/get_otherxml/<id>', methods=['GET'])
 def get_otherxml(id):
     objId = ObjectId(id)
-    xml = mongo.db.xml4210.find({"_id": objId})
-    print(xml[0])
-    return json.loads(json_util.dumps(xml[0]))
+    print(objId)
+    xml = mongo.db.xml4210.find({"_id": objId})[0]
+    print(xml)
+    return json.loads(json_util.dumps(xml))
 
-@main.route('/api/xml_check/<id>', methods=['GET'])
-def xml_check(id):
-    objId = ObjectId(id)
-    xml = mongo.db.xml4210.find({"_id": objId})
-    xml_check = XmlCheck_4210(xml[0])
+@main.route('/api/check_xml/<xmlType>', methods=['GET'])
+def check_xml(xmlType):
+    if (xmlType == '4210'):
+        xml4210 = mongo.db.xml4210.find()
+        for xml in xml4210:
+            xml_check = XmlCheck_4210(xml)
     
-    return jsonify({'error': 'âsasas'})    
+    
+    return jsonify({'msg': "Successfully checking"})
+    
+    

@@ -3,7 +3,7 @@ import XmlTag4210 from "./XmlTag4210.json"
 import XmlTag130 from "./XmlTag130.json"
 
 function XMLOther({ xmlType, xmlNumber, data, setIsInfoShow, setTagInfo }) {
-
+    console.log("data is ", data)
     let head_tb;
     if (xmlType === '4210') {
         head_tb = XmlTag4210[xmlNumber - 1]['tag'];
@@ -19,15 +19,6 @@ function XMLOther({ xmlType, xmlNumber, data, setIsInfoShow, setTagInfo }) {
         setTagInfo({ "title": name, "des": des })
     }
 
-    const handleMouseOver = (event) => {
-        // Access the data from the cell (you can customize this based on your data structure)
-        const cellData = event.target.innerText;
-    
-        // Set the tooltip content
-        event.target.title = `Tooltip: ${cellData}`;
-      };
-
-
 
 
     return (
@@ -37,9 +28,7 @@ function XMLOther({ xmlType, xmlNumber, data, setIsInfoShow, setTagInfo }) {
                     <thead className="sticky top-0 text-xs text-gray-700 uppercase bg-blue-200">
                         <tr>
                             {head_tb.slice(1).map((header, index) => (
-                                <th key={index} cscope="col"
-                                    className={`px-6 py-3 whitespace-nowrap ${header.name === 'STT' ? 'w-10' : ''}
-                                        `}>
+                                <th key={index} cscope="col" className="px-6 py-3 whitespace-nowrap">
                                     <div className="cursor-pointer" onClick={() => handClickHeader(header.name, header.des)}>
                                         {header.name}
                                     </div>
@@ -57,24 +46,21 @@ function XMLOther({ xmlType, xmlNumber, data, setIsInfoShow, setTagInfo }) {
                                 {head_tb.slice(1).map((header, colIndex) => (
                                     <td
                                         key={colIndex}
-                                        onMouseOver={handleMouseOver}
-                                        className={`px-3 py-1 whitespace-nowrap 
-                                            ${header.align === 'center' ? 'text-center' : (header.align === 'right' ? 'text-right' : 'text-left')}
-                                            ${header.name === 'STT' ? 'w-10' :
-                                                header.name === 'DIEN_BIEN' ? 'truncate max-w-96' :
-                                                    header.name === 'HOI_CHAN' ? 'truncate max-w-96' :
-                                                        header.name === 'PHAU_THUAT' ? 'truncate max-w-96' :
-                                                            header.name === 'MO_TA' ? 'truncate max-w-96' :
-                                                                header.name === 'KET_LUAN' ? 'truncate max-w-96' :
-                                                                    ''}
-                                        `}
+                                        className={`px-3 py-1 whitespace-nowrap ${header.align === 'center' ? 'text-center' : (header.align === 'right' ? 'text-right' : 'text-left')}
+                                                    ${
+                                                        header.name === 'DIEN_BIEN' ? 'truncate max-w-96':
+                                                        header.name === 'HOI_CHAN' ? 'truncate max-w-96': 
+                                                        header.name === 'PHAU_THUAT' ? 'truncate max-w-96': 
+                                                    
+                                                    '' } `}
                                     >
+
                                         {item[header.name]}
                                     </td>
-
                                 ))}
                             </tr>
                         ))}
+
                     </tbody>
                 </table>
             </div>

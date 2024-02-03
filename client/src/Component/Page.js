@@ -17,7 +17,7 @@ function MainPage() {
     const [xmlType, setXmlType] = useState('4210');
     // const [urlAPI, setUrlAPI] = useState('http://127.0.0.1:5000/api4210/')
     const fileInputRef = useRef(null);
-    const [xmlDetail, setXmlDetail] = useState({});
+    const [xmlDetail, setXmlDetail] = useState({ 'xml2': [], 'xml3': [], 'xml4': [], 'xml5': [] });
     const [xmlID, setXmlID] = useState('');
     const [showAlert, setShowAlert] = useState(false);
     const [msgPopup, setMsgPopup] = useState('')
@@ -151,8 +151,17 @@ function MainPage() {
                 setXmlOtherH('h-1/6');
             }
         }
-
     }, [xmlView])
+
+    const handleClickCheck = async () => {
+        try {
+            const response = await fetch(urlAPI + 'check_xml/' + xmlType);
+            const data = await response.json();
+            console.log(data);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    };
 
 
     return (
@@ -193,7 +202,12 @@ function MainPage() {
                             </button>
                         </div>
 
-                        <button className="font-semibold bg-blue-300 hover:bg-blue-500 text-white cursor-pointer border py-2 px-4 rounded-md text-sm min-w-24">Test</button>
+                        <button 
+                        className="font-semibold bg-blue-300 hover:bg-blue-500 text-white cursor-pointer border py-2 px-4 rounded-md text-sm min-w-24"
+                        onClick={() => handleClickCheck()}
+                        >
+                            Test
+                            </button>
                             <div className="flex items-center">
                                 <input
                                     type="file"
@@ -218,16 +232,13 @@ function MainPage() {
 
             <div className={styles.MainPage}>
                 <div className={xml1H}>
-                    {xml1 && xml1.length > 0 &&
                     <XML1Page
-                    xmlType={xmlType}
-                    data={xml1}
-                    setXmlID={setXmlID}
-                    setIsInfoShow={setIsInfoShow}
-                    setTagInfo={setTagInfo}
-                />
-                    }
-                    
+                        xmlType={xmlType}
+                        data={xml1}
+                        setXmlID={setXmlID}
+                        setIsInfoShow={setIsInfoShow}
+                        setTagInfo={setTagInfo}
+                    />
                     {/* <XML1Page xmlType={xmlType} data={xml1} setXmlID={setXmlID} /> */}
                 </div>
                 <div className={`${xmlOtherH} mt-10 pb-20 z-50`}>

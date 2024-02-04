@@ -72,12 +72,20 @@ def get_otherxml(id):
 
 @main.route('/api/check_xml/<xmlType>', methods=['GET'])
 def check_xml(xmlType):
+    result = []
     if (xmlType == '4210'):
         xml4210 = mongo.db.xml4210.find()
         for xml in xml4210:
+            obj = {}
+            _id = xml["_id"]
             xml_check = XmlCheck_4210(xml)
+            xml_err = xml_check.xml1_check()
+            if (xml_err):
+                obj['XML1'] = xml_err
+                obj['parentId'] = ObjectId(_id)
+                result.append(obj)
     
     
-    return jsonify({'msg': "Successfully checking"})
+    return json.loads(json_util.dumps(result))
     
     

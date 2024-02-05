@@ -20,11 +20,11 @@ function XML1Page({ xmlType, data, setXmlID, setIsInfoShow, setTagInfo }) {
         // Assuming 'STT' is a numeric property, you can sort the data like this:
         const sorted = [...data].sort((a, b) => {
             // Convert 'STT' values to numbers for proper numeric sorting
-            const sttA = parseFloat(a.xml1.STT);
-            const sttB = parseFloat(b.xml1.STT);
+            const sttA = parseFloat(a.xml1[1].STT);
+            const sttB = parseFloat(b.xml1[1].STT);
             return sttA - sttB;
         });
-
+        console.log('Sorted value', sorted)
         setSortedData(sorted);
     }, [data]);
 
@@ -77,11 +77,14 @@ function XML1Page({ xmlType, data, setXmlID, setIsInfoShow, setTagInfo }) {
                                 </td>
                                 {head_tb.slice(1).map((header, colIndex) => (
                                     <td
-                                        key={colIndex} 
-                                        className={`px-3 py-1 whitespace-nowrap ${header.align === 'center' ? 'text-center' : (header.align === 'right' ? 'text-right' : 'text-left')}`}
-                                    >
-                                            {item['xml1'][header.name]}
-                                    </td>
+                                    key={colIndex} 
+                                    className={`px-3 py-1 whitespace-nowrap ${header.align === 'center' ? 'text-center' : (header.align === 'right' ? 'text-right' : 'text-left')}
+                                        ${item['xml1'][colIndex+1]['status'] ==='PASS' ? '': 'bg-red-400'}
+                                    `}
+                                >
+                                    {item['xml1'][colIndex+1][header.name]}
+                                </td>
+                                
 
                                 ))}
 

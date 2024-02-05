@@ -13,7 +13,12 @@ class XmlCheck_4210():
         # Set Rule
         if (len(xml1['NGAY_SINH']) != 8):
             error_obj['NGAY_SINH'] = 'Fail'
-        if (xml1['GIOI_TINH'] == '1'):
-            error_obj['GIOI_TINH'] = 'Giới tính =  2'
-            
+        c_gioi_tinh = xml1['GIOI_TINH']
+        if (c_gioi_tinh != '1' and c_gioi_tinh != '2'):
+            error_obj['GIOI_TINH'] = 'Fail'
+        # check địa chỉ
+        for element in str(xml1['DIA_CHI']).split(","):
+            if  str(element).strip() == '':
+                
+                error_obj['DIA_CHI'] = 'Fail'
         return error_obj

@@ -3,7 +3,7 @@ import XmlTag4210 from "./XmlTag4210.json"
 import XmlTag130 from "./XmlTag130.json"
 
 function XMLOther({ xmlType, xmlNumber, data, setIsInfoShow, setTagInfo }) {
-    console.log("data is ", data)
+    // console.log("data is ", data)
     let head_tb;
     if (xmlType === '4210') {
         head_tb = XmlTag4210[xmlNumber - 1]['tag'];

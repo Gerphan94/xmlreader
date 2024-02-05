@@ -56,24 +56,46 @@ def get_xml1s(xml_type):
     if (xml_type == '4210'):
         xml4210 = mongo.db.xml4210.find()
         for xml in xml4210:
+            _id = xml['_id']
+            xml1 = xml['xml1'][0]
+            xml_check = mongo.db.xml4210_check.find_one({'parentId': ObjectId(_id)})
+            
+            if xml_check:
+                xmlcheck_disc = [tag for tag in xml_check['XML1']]
+                print(xmlcheck_disc)
+            
             obj = {}
-            obj['_id'] = xml['_id']
-            obj['xml1'] = xml['xml1'][0]
+            obj['_id'] = _id
+            
+            xm1_ar = []
+            
+            for key, value in xml1.items():
+                sub_obj = {}
+                sub_obj[key] = value
+                if xml_check:
+                    
+                    if key in xmlcheck_disc:
+                        sub_obj['status'] = 'FAIL'
+                    else:
+                        sub_obj['status'] = 'PASS'
+                else:
+                    sub_obj['status'] = 'PASS'
+                xm1_ar.append(sub_obj)
+            obj['xml1'] = xm1_ar 
             result_ar.append(obj)
     return json.loads(json_util.dumps(list(result_ar)))
 
 @main.route('/api/get_otherxml/<id>', methods=['GET'])
 def get_otherxml(id):
     objId = ObjectId(id)
-    print(objId)
     xml = mongo.db.xml4210.find({"_id": objId})[0]
-    print(xml)
     return json.loads(json_util.dumps(xml))
 
 @main.route('/api/check_xml/<xmlType>', methods=['GET'])
 def check_xml(xmlType):
     result = []
     if (xmlType == '4210'):
+        mongo.db.drop_collection('xml4210_check')
         xml4210 = mongo.db.xml4210.find()
         for xml in xml4210:
             obj = {}
@@ -84,7 +106,7 @@ def check_xml(xmlType):
                 obj['XML1'] = xml_err
                 obj['parentId'] = ObjectId(_id)
                 result.append(obj)
-    
+    mongo.db.xml4210_check.insert_many(result)
     
     return json.loads(json_util.dumps(result))
     

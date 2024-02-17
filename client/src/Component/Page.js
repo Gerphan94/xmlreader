@@ -1,17 +1,17 @@
 import React, { useRef, useState, useEffect } from "react";
+import { FaEye } from "react-icons/fa6";
+import Select from 'react-select'
+
 import XML1Page from "./XML1";
 import XMLOther from "./XMLOther";
 import LoadingPopup from "./LoadingPopup";
 import InfoModal from "./InfoModal";
-
 import styles from "./styles.module.css";
 import AlertPopup from "./AlertPopup";
-import { FaEye } from "react-icons/fa6";
 
 
 
 function MainPage() {
-
     const urlAPI = "http://127.0.0.1:5000/api/"
 
     const [xmlType, setXmlType] = useState('4210');
@@ -28,16 +28,43 @@ function MainPage() {
     const [isInfoShow, setIsInfoShow] = useState(false);
     const [tagInfo, setTagInfo] = useState({ "title": "", "des": "" })
 
-    const handleSelectChange = (event) => {
-        setXmlType(event.target.value);
+    const [errorView, setErrorView] = useState(false);
 
-        if (event.target.value === '4210') {
+
+    const handleXmlTypeChange = (selectedOption) => {
+        setXmlType(selectedOption.value);
+
+        if (selectedOption.value === '4210') {
             setXmlChild([2, 3, 4, 5]);
         }
         else {
             setXmlChild([2, 3, 4, 5, 7, 8, 9, 10, 11]);
         }
-    };
+    }
+
+
+    const [tableView, setTableView] = useState({ 'xml1': true, 'xmlother': true })
+    const [tableH, setTableH] = useState({ "XML1H": 'h-1/3', "XMLOtherH": 'h-2/3' });
+
+
+    const handleViewChange = (selectedOption) => {
+        if (selectedOption.value === 1) {
+            setTableView({ 'xml1': true, 'xmlother': true });
+            setTableH({ "XML1H": 'h-1/3', "XMLOtherH": 'h-2/3' })
+        } else if (selectedOption.value === 2) {
+            setTableView({ 'xml1': true, 'xmlother': false });
+            setTableH({ "XML1H": 'h-full', "XMLOtherH": 'h-0' })
+        } else {
+            setTableView({ 'xml1': false, 'xmlother': true });
+            setTableH({ "XML1H": 'h-0', "XMLOtherH": 'h-full' })
+        }
+    }
+
+    const handleChangeError = (selectedOption) => {
+        console.log(selectedOption.value);
+        setErrorView(selectedOption.value);
+    }
+
 
     const handleCloseAlert = () => {
         setShowAlert(false);
@@ -64,20 +91,15 @@ function MainPage() {
         const files = fileInput.files;
         if (files.length > 0) {
             setIsLoading(true);
-
             const formData = new FormData();
             for (let i = 0; i < files.length; i++) {
                 formData.append('files', files[i]);
             }
-
-            // Now you can send this formData to your backend API
-            // Example using fetch:
             fetch(urlAPI + 'create_xml/' + xmlType, { method: 'POST', body: formData, })
                 .then(response => {
                     // Check if the response status is OK (status code between 200 and 299)
                     if (response.ok) {
                         setMsgPopup("Uploaded successfully");
-                        
                         fetchXML1Data()
                     }
                     else {
@@ -88,22 +110,17 @@ function MainPage() {
                     console.error('Error:', error);
                 })
                 .finally(() => {
-                    // This block will be executed regardless of success or error
-                    // setIsLoading(false);
-
                     setShowAlert(true);
                     fileInputRef.current.value = null;
                 });
         }
-
-
     };
 
     useEffect(() => {
         console.log("-----Start -----")
-        
+
         fetchXML1Data();
-        
+
     }, [xmlType]);
 
     useEffect(() => {
@@ -123,36 +140,10 @@ function MainPage() {
     }, [xmlID]);
     // xml1 height and xmlother height
 
-    const [xmlView, setXmlView] = useState(0);
-    const [xml1H, setXml1H] = useState('h-1/3')
-    const [xmlOtherH, setXmlOtherH] = useState('h-2/3')
 
-    const handleClickView = () => {
-        if (xmlView === 2) {
-            setXmlView(0);
-        }
-        else {
-            setXmlView(xmlView + 1);
-        }
-    }
 
-    useEffect(() => {
-        console.log(xmlView);
-        if (xmlView === 0) {
-            setXml1H('h-1/3');
-            setXmlOtherH('h-2/3');
 
-        } else {
-            if (xmlView === 1) {
-                setXml1H('h-1/6');
-                setXmlOtherH('h-5/6');
-            } else {
-                setXml1H('h-5/6');
-                setXmlOtherH('h-1/6');
-            }
-        }
-    }, [xmlView])
-
+ 
     const handleClickCheck = async () => {
         try {
             const response = await fetch(urlAPI + 'check_xml/' + xmlType);
@@ -166,18 +157,22 @@ function MainPage() {
 
     return (
         <div>
-            <div className="fixed top-0 h-16 w-full ">
+            {/* <Navbar /> */}
+
+            <div className="fixed top-0 h-16 w-full border-b-2 ">
                 <div className="flex justify-between w-full h-full">
                     <div className="flex gap-4">
                         <div className="flex items-center">
-                            <select
-                                className="font-bold text-2xl ml-10 p-2 text-shadow-2xl cursor-pointer outline-none"
-                                value={xmlType}
-                                onChange={handleSelectChange}
-                            >
-                                <option className="text-lg" value={'4210'}>XML 4210</option>
-                                <option className="text-lg" value={'130'} >XML 130</option>
-                            </select>
+
+                            <Select
+                                className="ml-10 w-40 font-bold, text-left"
+                                options={[{ value: '4210', label: 'XML 4210' }, { value: '130', label: 'XML 130' }]}
+                                menuPortalTarget={document.body}
+                                styles={{ menuPortal: base => ({ ...base, zIndex: 9999, border: 0, boxShadow: 'none' }) }}
+                                defaultValue={{ value: '4210', label: "XML 4210" }}
+                                isSearchable={false}
+                                onChange={handleXmlTypeChange}
+                            />
                         </div>
 
                         <div className="flex items-center">
@@ -191,57 +186,82 @@ function MainPage() {
                             ></input>
                         </div>
                     </div>
-
                     <div className="flex justify-between items-center gap-2 px-4">
-                        <div className="flex items-center ">
-                            <button
-                                className="text-2xl text-blue-200 hover:text-blue-500"
-                                onClick={() => handleClickView()}
-                            >
-                                <FaEye />
-                            </button>
-                        </div>
+                        <Select
+                            className="w-32 outline-none text-left border-white"
+                            isSearchable={false}
+                            options={[
+                                { value: false, label: "Full" },
+                                { value: true, label: "Error" }
 
-                        <button 
-                        className="font-semibold bg-blue-300 hover:bg-blue-500 text-white cursor-pointer border py-2 px-4 rounded-md text-sm min-w-24"
-                        onClick={() => handleClickCheck()}
+                            ]}
+                            menuPortalTarget={document.body}
+                            styles={{ menuPortal: base => ({ ...base, zIndex: 9999 }) }}
+                            defaultValue={{ value: false, label: "Full" }}
+                            onChange={handleChangeError}
+                        />
+                        <Select
+                            className="w-32 outline-none text-left"
+                            isSearchable={false}
+                            options={[
+                                { value: 1, label: "All" },
+                                { value: 2, label: "XML1" },
+                                { value: 3, label: "! XML1" }
+                            ]}
+                            menuPortalTarget={document.body}
+                            styles={{ menuPortal: base => ({ ...base, zIndex: 9999 }) }}
+                            defaultValue={{ value: 1, label: "All" }}
+                            onChange={handleViewChange}
+                        />
+                        <div className="flex">
+                        <button
+                            className="font-semibold bg-white hover:bg-gray-100 cursor-pointer border py-2 px-4 text-sm min-w-24"
+                            onClick={() => handleClickCheck()}
                         >
-                            Test
-                            </button>
-                            <div className="flex items-center">
-                                <input
-                                    type="file"
-                                    id="select-file"
-                                    hidden
-                                    ref={fileInputRef}
-                                    onChange={upload}
-                                    multiple
-                                    accept="application/xml"
-                                />
-                                <label
-                                    htmlFor="select-file"
-                                    className="border border-w flex text-sm h-full py-2 px-4 rounded-md font-semibold bg-blue-300 hover:bg-blue-500 text-white cursor-pointer"
-                                >
-                                    Choose file
-                                </label>
-                            </div>
+                            Run Test
+                        </button>
+                        <div className="flex items-center">
+                            <input
+                                type="file"
+                                id="select-file"
+                                hidden
+                                ref={fileInputRef}
+                                onChange={upload}
+                                multiple
+                                accept="application/xml"
+                            />
+                            <label
+                                htmlFor="select-file"
+                                className="border border-w flex text-sm h-full py-2 px-4  font-semibold bg-white hover:bg-gray-100 cursor-pointer"
+                            >
+                                Choose file
+                            </label>
+                        </div>
+                        </div>
+                        
 
-                    </div> 
+                    </div>
                 </div>
             </div>
 
             <div className={styles.MainPage}>
-                <div className={xml1H}>
-                    <XML1Page
-                        xmlType={xmlType}
-                        data={xml1}
-                        setXmlID={setXmlID}
-                        setIsInfoShow={setIsInfoShow}
-                        setTagInfo={setTagInfo}
-                    />
-                    {/* <XML1Page xmlType={xmlType} data={xml1} setXmlID={setXmlID} /> */}
-                </div>
-                <div className={`${xmlOtherH} mt-10 pb-20 z-50`}>
+                {tableView['xml1'] &&
+                    <div className={` ${tableH['XML1H']} mb-4 `}>
+                        <XML1Page
+                            xmlType={xmlType}
+                            data={xml1}
+                            setXmlID={setXmlID}
+                            setIsInfoShow={setIsInfoShow}
+                            setTagInfo={setTagInfo}
+                            errorView={errorView}
+                        />
+                        {/* <XML1Page xmlType={xmlType} data={xml1} setXmlID={setXmlID} /> */}
+                    </div>
+                }
+
+                {tableView['xmlother'] && 
+
+                <div className={`${tableH['XMLOtherH']} pb-20 z-50`}>
                     <div className="flex h-10">
                         {xmlChilds.map((child) => (
                             <button
@@ -264,6 +284,7 @@ function MainPage() {
                         />
                     </div>
                 </div>
+}
 
             </div>
 

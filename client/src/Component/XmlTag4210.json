@@ -58,7 +58,7 @@
 			{ "name": "LIEU_DUNG", "align": "left" ,"des":""},
 			{ "name": "SO_DANG_KY", "align": "left" ,"des":""},
 			{ "name": "TT_THAU", "align": "left" ,"des":""},
-			{ "name": "PHAM_Vl", "align": "center" ,"des":""},
+			{ "name": "PHAM_VI", "align": "center" ,"des":""},
 			{ "name": "TYLE_TT", "align": "center" ,"des":""},
 			{ "name": "SO_LUONG", "align": "left" ,"des":""},
 			{ "name": "DON_GIA", "align": "left" ,"des":""},

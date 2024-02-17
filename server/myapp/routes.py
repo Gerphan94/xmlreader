@@ -59,29 +59,32 @@ def get_xml1s(xml_type):
             _id = xml['_id']
             xml1 = xml['xml1'][0]
             xml_check = mongo.db.xml4210_check.find_one({'parentId': ObjectId(_id)})
-            
-            if xml_check:
+            xmlcheck_disc = []
+            if xml_check and 'XML1' in xml_check:
                 xmlcheck_disc = [tag for tag in xml_check['XML1']]
-                print(xmlcheck_disc)
-            
+                # print(xmlcheck_disc)
             obj = {}
             obj['_id'] = _id
-            
+            error_count = 0
             xm1_ar = []
             
             for key, value in xml1.items():
                 sub_obj = {}
                 sub_obj[key] = value
                 if xml_check:
-                    
                     if key in xmlcheck_disc:
                         sub_obj['status'] = 'FAIL'
+                        error_count += 1
                     else:
                         sub_obj['status'] = 'PASS'
                 else:
                     sub_obj['status'] = 'PASS'
                 xm1_ar.append(sub_obj)
             obj['xml1'] = xm1_ar 
+            if (error_count > 0):
+                obj['status'] = "FAIL"
+            else:
+                obj['status'] = "PASS"
             result_ar.append(obj)
     return json.loads(json_util.dumps(list(result_ar)))
 
@@ -90,6 +93,12 @@ def get_otherxml(id):
     objId = ObjectId(id)
     xml = mongo.db.xml4210.find({"_id": objId})[0]
     return json.loads(json_util.dumps(xml))
+
+@main.route('/api/get_all_otherxml', methods=['GET'])
+def get_all_otherxml():
+    xml = mongo.db.xml4210.find()
+    return json.loads(json_util.dumps(xml))
+
 
 @main.route('/api/check_xml/<xmlType>', methods=['GET'])
 def check_xml(xmlType):
@@ -100,12 +109,21 @@ def check_xml(xmlType):
         for xml in xml4210:
             obj = {}
             _id = xml["_id"]
+            
             xml_check = XmlCheck_4210(xml)
-            xml_err = xml_check.xml1_check()
-            if (xml_err):
-                obj['XML1'] = xml_err
+            xml1_err = xml_check.xml1_check()
+            xml2_err = xml_check.xml2_check()
+            if (xml1_err):
+                # print("xml1_err", xml1_err)
+                obj['XML1'] = xml1_err
+            if (xml2_err):
+                # print("xml2_err", xml2_err)
+                obj['XML2'] = xml2_err
+            if (obj):
+               
                 obj['parentId'] = ObjectId(_id)
                 result.append(obj)
+    print('------------------', result)
     mongo.db.xml4210_check.insert_many(result)
     
     return json.loads(json_util.dumps(result))

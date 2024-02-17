@@ -5,11 +5,13 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 import NotFound from './Page/404';
 import MainPage from './Component/Page';
+import Navbar from "./Component/navBar";
 
 function App() {
 
   return (
     <div className="App">
+     
       <Router>
         <HelmetProvider>
           <div className=''>
